@@ -1,0 +1,222 @@
+
+#header nav{
+	height: 100px;
+	background-color: #333;
+}
+nav img{
+	
+	width: 250px;
+	height: 100px;
+}
+nav ul li a{
+	font-weight: bold;
+	margin: 10px;
+	margin-top: 20px;
+	color: white;
+}
+.header-login{
+	right: -40px;
+}
+.header-login a{
+	color: white;
+	margin-left: 5px;
+}
+.st-navbar ul > li > a:hover{
+	background:none;
+}
+#slider{
+	margin-top: -24px;
+}
+
+.main-content {
+	background-color: #F1F1F1;
+	border: 1px solid #F1F1F1;
+	padding-bottom: 30px;
+}
+.main-content .main-section {
+	background-color: #fff;
+border-radius: 4px;	
+border: 0.5px solid #CACACA;
+margin-top: 30px;
+
+}
+.section{
+	margin-bottom: 20px;
+	width: 729px;
+}
+.title-section nav{
+margin-top: 10px;
+}
+.title-section p{
+	font-weight: bold;
+	color: white;
+	margin-top: 13px;
+	margin-left: 10px;
+}
+.section .main-section{
+	border-radius: 4px;	
+	border: 0.5px solid #CECECE;
+	margin-top: 8px;
+	width: 730px;
+	margin-left: 1.5px;
+}
+.section .main-section h4{
+	color: #222;
+	display: inline-block;
+	margin-top: 0;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 600;
+	font-size: 15px;
+	letter-spacing: 0.6px;
+	text-transform: uppercase;
+	word-wrap: break-word;
+	max-width: 500px;
+	margin-left: -12px;
+}
+
+
+.section .main-section .detail-section{
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.section .main-section .detail-section p{
+	width: 150px;
+    word-wrap: break-word;
+    color: #777;
+	font-size: 15px;
+	letter-spacing: 0.6px;
+	line-height: 26px;
+	margin-bottom: 25px;
+}
+.section .main-section .detail-section img{
+	 margin-left: -30px;
+}
+.section .main-section .detail-section-index{
+	margin-bottom: 30px;
+}
+.section .main-section .detail-section-index h4{
+	color: #222;
+	display: inline-block;
+	margin-top: 0;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 600;
+	font-size: 15px;
+	letter-spacing: 0.6px;
+	text-transform: uppercase;
+	word-wrap: break-word;
+	max-width: 600px;
+	margin-left:20px;
+	line-height: 1.6;
+}
+.section .main-section .detail-section-index p{ 
+	width: 300px;
+    word-wrap: break-word;
+    color: #777;
+	font-size: 15px;
+	letter-spacing: 0.6px;
+	line-height: 26px;
+	margin-bottom: 25px;
+}
+.section .detail-section-product p{ 
+	width: 700px;
+    word-wrap: break-word;
+    color: #777;
+	font-size: 15px;
+	letter-spacing: 0.6px;
+	line-height: 26px;
+	margin-bottom: 25px;
+	margin-left: 10px;
+}
+.section .main-section .detail-section-index .review{
+	position: relative;
+}
+.section .main-section .detail-section-index .review a{
+	position: absolute;
+	margin-bottom: -42px;
+    margin-left: 197px;
+}
+.pagination{
+	margin-left:350px;
+}
+.title-section-rb{
+	margin-top: 20px;
+	margin-left: -15px;
+	width: 370px;
+	text-align: center;
+	font-weight: bold;
+	color: white;
+}
+.title-section-rb p{
+	margin-top:15px;
+}
+
+.main-section-rb{
+	border-radius: 4px;	
+	border: 0.5px solid #CECECE;
+	margin-top: 8px;
+	width: 370px;
+	margin-bottom: 30px;
+}
+.main-section-rb .detail-section-rb{
+	margin-left: 10px;
+	margin-bottom: 15px;
+}
+
+.main-section-rb .detail-section-rb p{
+	width: 150px;
+    word-wrap: break-word;
+    margin-left:-30px;
+    color: #777;
+	font-size: 15px;
+	letter-spacing: 0.6px;
+	line-height: 26px;
+	margin-bottom: 25px;
+}
+.main-section-rb .detail-section-rb img{
+	margin-left:-30px;
+}
+.main-section-rb .detail-section-rb h4{
+	color: #222;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 600;
+	font-size: 15px;
+	letter-spacing: 0.6px;
+	text-transform: uppercase;
+	word-wrap: break-word;
+	
+}
+.section .main-section .detail h4{
+	color: #222;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 600;
+	font-size: 15px;
+	letter-spacing: 0.6px;
+	text-transform: uppercase;
+	word-wrap: break-word;
+	max-width: 700px;
+	border-bottom: 1px solid black;
+	margin-left: 3px;
+}
+.section .main-section .detail p{
+	width: 680px;
+    word-wrap: break-word;
+    color: #777;
+	font-size: 15px;
+	letter-spacing: 0.6px;
+	line-height: 26px;
+	margin-bottom: 25px;
+	margin-top: 20px;
+}
+#footer {
+	background-color: #333;
+	height: 60px;
+}
+#footer p{
+	color: white;
+	text-align: center;
+}
+.main-section .body-form{
+	margin-top: 30px;
+}
+
