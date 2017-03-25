@@ -24,9 +24,9 @@ import library.LibraryString;
 import bean.Bill;
 import bean.News;
 import bean.Register;
-import bean.SearchUserForDate;
-import bean.SearchUsers;
-import bean.Users;
+import bean.SearchForDate;
+import bean.Search;
+import bean.User;
 
 
 public class ModelBill {
@@ -146,7 +146,7 @@ public class ModelBill {
 		}
 		return alBill;
 	}
-	public ArrayList<Bill> getListForSearch(SearchUsers item){
+	public ArrayList<Bill> getListForSearch(Search item){
 		ArrayList<Bill> alBill = new ArrayList<>();
 		conn = mConnect.getConnectSQL();
 		String sql ="SELECT bill.Idbill,users.Username,users.Fullname,users.Birthday,users.Address,users.Phone,bill.information,payments.Name,bill.Dateorder,bill.Tranfer,bill.ship FROM bill JOIN users ON bill.IdUsers = users.IdUsers JOIN payments ON bill.Idpayments = payments.Id WHERE (bill.Tranfer = '"+item.getType()+"' AND users.Username LIKE '%"+item.getSomething()+"%') OR (bill.Tranfer = '"+item.getType()+"' AND users.Fullname LIKE '%"+item.getSomething()+"%') OR (bill.Tranfer = '"+item.getType()+"' AND users.Phone LIKE '%"+item.getSomething()+"%') OR (bill.Tranfer = '"+item.getType()+"' AND payments.Name LIKE '%"+item.getSomething()+"%')";
@@ -183,7 +183,7 @@ public class ModelBill {
 		}
 		return alBill;
 	}
-	public ArrayList<Bill> getListForSearchDate(SearchUserForDate item){
+	public ArrayList<Bill> getListForSearchDate(SearchForDate item){
 		ArrayList<Bill> alBill = new ArrayList<>();
 		conn = mConnect.getConnectSQL();
 		String sql = "SELECT bill.Idbill,users.Username,users.Fullname,users.Birthday,users.Address,users.Phone,bill.information,payments.Name,bill.Dateorder,bill.Tranfer,bill.ship FROM bill JOIN users ON bill.IdUsers = users.IdUsers JOIN payments ON bill.Idpayments = payments.Id WHERE (bill.Tranfer = '"+item.getType()+"' AND users.Birthday = '"+item.getDate()+"') OR (bill.Tranfer = '"+item.getType()+"' AND bill.Dateorder = '"+item.getDate()+"')  " ;

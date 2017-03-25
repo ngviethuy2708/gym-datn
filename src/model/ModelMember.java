@@ -1,0 +1,329 @@
+package model;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import library.LibraryString;
+import bean.Member;
+import bean.Training;
+import bean.User;
+
+public class ModelMember {
+	ModelConnectdb mConnect = new ModelConnectdb();
+	Connection conn;
+	PreparedStatement pst;
+	ResultSet rs;
+	public int addItem(Member objMember){
+		int result = 0;
+		LibraryString lib = new LibraryString();
+		conn = mConnect.getConnectSQL();
+		String sql ="INSERT INTO member(user_id,curent_history_id,is_expired) VALUES (?,?,?)";
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, objMember.getUserId());
+			pst.setInt(2, 0);
+			pst.setBoolean(3, true);
+			pst.executeUpdate();
+			result = 1;
+		} catch (SQLException e) {
+			result = 0;
+			e.printStackTrace();
+		}finally{
+			try {
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public int getIdMax(){
+		int id = 0;
+		String sql = "SELECT id FROM member WHERE id=(SELECT max(id) FROM member)";
+		conn = mConnect.getConnectSQL();
+		try {
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			if(rs.next()){
+				id = rs.getInt("id");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}		
+		return id;
+	}
+	public int editItem(Member objMember){
+		int result = 0;
+		LibraryString lib = new LibraryString();
+		conn = mConnect.getConnectSQL();
+		String sql ="UPDATE member SET curent_history_id = ? WHERE id = ? LIMIT 1";
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, objMember.getCurentHistoryId());
+			pst.setInt(2, objMember.getId());
+			pst.executeUpdate();
+			result = 1;
+		} catch (SQLException e) {
+			result = 0;
+			e.printStackTrace();
+		}finally{
+			try {
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public ArrayList<Member> getListForPaginator(int offset, int rowCount){
+		ArrayList<Member> alMember = new ArrayList<>();
+		conn = mConnect.getConnectSQL();
+		String sql = "SELECT member.id, member.curent_history_id, user.user_name, user.full_name ,training.name, training.day_of_training,  history.begin_day, history.curent_price, member.is_expired FROM member JOIN user ON member.user_id = user.id JOIN history ON member.curent_history_id = history.id JOIN training ON history.training_id = training.id limit ?,?";
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, offset);
+			pst.setInt(2, rowCount);
+			rs = pst.executeQuery();
+			while(rs.next()){
+				int id = rs.getInt("id");
+				int curentHistoryId = rs.getInt("curent_history_id");
+				Boolean isExpired = rs.getBoolean("is_expired");
+				String fullName = rs.getString("full_name");
+				String userName = rs.getString("user_name");
+				String trainingName = rs.getString("name");
+				int dayOfTraining = rs.getInt("day_of_training");
+				Date beginDay = rs.getDate("begin_day");
+				Member objMember = new Member(id, curentHistoryId, isExpired, fullName, userName, trainingName, dayOfTraining, beginDay);
+				alMember.add(objMember);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return alMember;
+	}
+	public ArrayList<Member> getList(){
+		ArrayList<Member> alMember = new ArrayList<>();
+		conn = mConnect.getConnectSQL();
+		String sql = "SELECT member.id, member.curent_history_id, user.user_name, user.full_name ,training.name, training.day_of_training,  history.begin_day, history.curent_price, member.is_expired FROM member JOIN user ON member.user_id = user.id JOIN history ON member.curent_history_id = history.id JOIN training ON history.training_id = training.id";
+		try {
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			while(rs.next()){
+				int id = rs.getInt("id");
+				int curentHistoryId = rs.getInt("curent_history_id");
+				Boolean isExpired = rs.getBoolean("is_expired");
+				String fullName = rs.getString("full_name");
+				String userName = rs.getString("user_name");
+				String trainingName = rs.getString("name");
+				int dayOfTraining = rs.getInt("day_of_training");
+				Date beginDay = rs.getDate("begin_day");
+				Member objMember = new Member(id, curentHistoryId, isExpired, fullName, userName, trainingName, dayOfTraining, beginDay);
+				alMember.add(objMember);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return alMember;
+	}
+	public ArrayList<Member> getListForViewHistory(int memberId){
+		ArrayList<Member> alMember = new ArrayList<>();
+		conn = mConnect.getConnectSQL();
+		String sql = "SELECT training.name, training.day_of_training,history.begin_day,history.curent_price,history.id,member.is_expired FROM history JOIN training ON history.training_id = training.id JOIN member ON history.member_id = member.id WHERE history.member_id =?";
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, memberId);
+			rs = pst.executeQuery();
+			while(rs.next()){
+				String trainingName = rs.getString("name");
+				int dayOfTraining = rs.getInt("day_of_training");
+				Date beginDay = rs.getDate("begin_day");
+				int current_price = rs.getInt("curent_price");
+				int historyId = rs.getInt("id");
+				Boolean isExpired = rs.getBoolean("is_expired");
+				Member objMember = new Member(trainingName, dayOfTraining, beginDay, current_price, historyId,isExpired);
+				alMember.add(objMember);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return alMember;
+	}
+	public int getSum(){
+		int sodong = 0;
+		String sql ="SELECT COUNT(id) AS sodong FROM member ";
+		conn = mConnect.getConnectSQL();
+		try {
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			if(rs.next()){
+				sodong = rs.getInt("sodong");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return sodong;
+	}
+	public int setExprired(int id) {
+		int result = 0;
+		String sql ="UPDATE member set is_expired = false where id = ?";
+		conn = mConnect.getConnectSQL();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.executeUpdate();
+			result = 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public int setExpriredForAddHistory(int id) {
+		int result = 0;
+		String sql ="UPDATE member set is_expired = true where id = ?";
+		conn = mConnect.getConnectSQL();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.executeUpdate();
+			result = 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	public Member getListForDayOff(int historyid){
+		Member objMember = null; 
+		conn = mConnect.getConnectSQL();
+		String sql = "SELECT member.id, member.curent_history_id, user.user_name, user.full_name ,training.name, training.day_of_training,  history.begin_day, history.curent_price, member.is_expired FROM member JOIN user ON member.user_id = user.id JOIN history ON member.curent_history_id = history.id JOIN training ON history.training_id = training.id WHERE history.id = ? limit 1";
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, historyid);
+			rs = pst.executeQuery();
+			if(rs.next()){
+				int id = rs.getInt("id");
+				int curentHistoryId = rs.getInt("curent_history_id");
+				Boolean isExpired = rs.getBoolean("is_expired");
+				String fullName = rs.getString("full_name");
+				String userName = rs.getString("user_name");
+				String trainingName = rs.getString("name");
+				int dayOfTraining = rs.getInt("day_of_training");
+				Date beginDay = rs.getDate("begin_day");
+				objMember = new Member(id, curentHistoryId, isExpired, fullName, userName, trainingName, dayOfTraining, beginDay);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return objMember;
+	}
+/*	public int getUserId(int memberId){
+		int id = 0;
+		String sql = "SELECT user.id as id FROM member JOIN user ON member.user_id = user.id WHERE id= ?";
+		conn = mConnect.getConnectSQL();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, memberId);
+			rs = pst.executeQuery();
+			if(rs.next()){
+				id = rs.getInt("id");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}		
+		return id;
+	}*/
+}

@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.Users;
+import bean.User;
 import library.LibraryConstant;
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerIndex

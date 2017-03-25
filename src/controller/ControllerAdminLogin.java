@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.Users;
-import model.ModelUsers;
+import bean.User;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerIndex
@@ -39,11 +39,11 @@ public class ControllerAdminLogin extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ModelUsers mUsers = new ModelUsers();
+		ModelUser mUsers = new ModelUser();
 		if(request.getParameter("submit")!=null){
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-			Users objUser = mUsers.getUserByUserPass(username,password);
+			User objUser = mUsers.getUserByUserPass(username,password);
 			if(objUser != null){
 				if(objUser.isAdmin()==true){
 					HttpSession ss = request.getSession();

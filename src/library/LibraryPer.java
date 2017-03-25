@@ -6,12 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.Users;
+import bean.User;
 
 public class LibraryPer {
 	public static boolean isLogin(HttpServletRequest request, HttpServletResponse response){
 		HttpSession ss = request.getSession();
-		Users objUser = (Users)ss.getAttribute("objAdmin");
+		User objUser = (User)ss.getAttribute("objAdmin");
 		if(objUser == null ){
 			try {
 					response.sendRedirect(request.getContextPath()+"/admin/login");

@@ -2,7 +2,7 @@ package bean;
 
 import java.sql.Date;
 
-public class SearchUserForDate {
+public class SearchForDate {
 	private String type;
 	private Date date;
 	public String getType() {
@@ -17,12 +17,12 @@ public class SearchUserForDate {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public SearchUserForDate(String type, Date date) {
+	public SearchForDate(String type, Date date) {
 		super();
 		this.type = type;
 		this.date = date;
 	}
-	public SearchUserForDate() {
+	public SearchForDate() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

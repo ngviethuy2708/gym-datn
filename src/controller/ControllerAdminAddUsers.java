@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import library.TimeConvert;
-import model.ModelUsers;
-import bean.Users;
+import model.ModelUser;
+import bean.User;
 
 /**
  * Servlet implementation class ControllerAdminAddUsers
@@ -40,23 +40,21 @@ public class ControllerAdminAddUsers extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ModelUsers  mUser = new ModelUsers();
+		ModelUser  mUser = new ModelUser();
 		if(request.getParameter("submit")!=null){
 			String userName = request.getParameter("userName");
 			String passWord = request.getParameter("passWord");
 			String fullName = request.getParameter("fullName");
 			fullName = new String(fullName.getBytes("ISO-8859-1"), "UTF-8");
 			String date = request.getParameter("birthDay");
-			java.util.Date date2 = TimeConvert.getDateTime(date);
-			Date birthDay = TimeConvert.getSqlDate(date2);
+			java.util.Date date_until = TimeConvert.getDateTime(date);
+			Date birthDay = TimeConvert.getSqlDate(date_until);
 			String addDress = request.getParameter("address");
 			addDress = new String(addDress.getBytes("ISO-8859-1"), "UTF-8");
 			String phoneNumber = request.getParameter("phoneNumber");
-			Users objUser = new Users(0, userName, passWord, fullName, birthDay, addDress, phoneNumber);
+			User objUser = new User(0, userName, passWord, fullName, birthDay, addDress, phoneNumber, false);
 			if(mUser.addItem(objUser)>0){
 				response.sendRedirect(request.getContextPath()+"/admin/indexUsers");
-			}else{
-				response.sendRedirect(request.getContextPath()+"/admin/addUsers?msg=add0");
 			}
 		}else{
 			RequestDispatcher rd = request.getRequestDispatcher("/admin/createUsers.jsp");

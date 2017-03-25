@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.Users;
+import bean.User;
 import library.LibraryPerPuclic;
 
 /**
@@ -39,7 +39,7 @@ public class ControllerCheckLoginBuyProduct extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession ss = request.getSession();
-		Users objUser = (Users)ss.getAttribute("objUser");
+		User objUser = (User)ss.getAttribute("objUser");
 		if(objUser == null ){
 			try {
 					response.sendRedirect(request.getContextPath()+"/index?buy=buy0");

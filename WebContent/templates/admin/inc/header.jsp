@@ -9,11 +9,19 @@
 	<link href="<%=request.getContextPath() %>/templates/admin/css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<link href="<%=request.getContextPath() %>/templates/admin/css/bootstrap-switch.min.css" rel="stylesheet" media="screen">
 	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/templates/admin/css/style.css">
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/templates/admin/css/bootstrap-datepicker.css">
 	<link href="<%=request.getContextPath() %>/templates/admin/css/animate.min.css" rel="stylesheet" media="screen">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/templates/admin/js/jquery.validate.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/templates/admin/js/ckeditor/ckeditor.js"></script><style>.cke{visibility:hidden;}</style>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/templates/admin/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/templates/admin/js/bootbox.min.js"></script>
+    <script src="<%=request.getContextPath() %>/templates/public/sweetalert-master/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/templates/admin/js/moment.js"></script>
+  	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/templates/public/sweetalert-master/dist/sweetalert.css">
 </head>
 <body>
 	<!-- header -->
@@ -23,9 +31,9 @@
 			<nav class="collapse navbar-collapse bs-navbar-collapse ">
 				<ul class="nav navbar-nav header-menu">
 					<li><a href="<%=request.getContextPath() %>/admin/index"><img src="<%=request.getContextPath() %>/templates/admin/images/logo.png" alt="" class="img-circle" style="width:20px; height:20px; "></a></li>
-					<li><a href="<%=request.getContextPath()%>/admin/indexUsers">Nguời dùng</a></li>
-					<li><a href="<%=request.getContextPath()%>/admin/indexTraining">Lịch tập</a></li>
-					<li><a href="<%=request.getContextPath()%>/admin/indexRegister">Đăng ký</a></li>
+					<li><a href="<%=request.getContextPath()%>/admin/indexUsers">KHÁCH HÀNG</a></li>
+					<li><a href="<%=request.getContextPath()%>/admin/indexTraining">LỊCH TẬP</a></li>
+					<li><a href="<%=request.getContextPath()%>/admin/indexRegister">HỘI VIÊN</a></li>
 					<li><a href="<%=request.getContextPath()%>/admin/indexIntroduce">Giới thiệu</a></li>
 					<li><a href="<%=request.getContextPath()%>/admin/indexNews">Tin tức</a></li>
 					<li><a href="<%=request.getContextPath()%>/admin/indexExcercises">Bài tập</a></li>

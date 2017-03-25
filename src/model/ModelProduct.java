@@ -28,9 +28,9 @@ import bean.Introduce;
 import bean.News;
 import bean.Product;
 import bean.Register;
-import bean.SearchUserForDate;
-import bean.SearchUsers;
-import bean.Users;
+import bean.SearchForDate;
+import bean.Search;
+import bean.User;
 
 
 public class ModelProduct {
@@ -253,7 +253,7 @@ public class ModelProduct {
 		return picture;
 	}
 	
-	public ArrayList<Product> getListForSearch(SearchUsers item){
+	public ArrayList<Product> getListForSearch(Search item){
 		ArrayList<Product> alPro = new ArrayList<>();
 		conn = mConnect.getConnectSQL();
 		String sql ="select * from product where (Type = '"+item.getType()+"' and  Name like '%"+item.getSomething()+"%') or (Type = '"+item.getType()+"' and  Preview like '%"+item.getSomething()+"%') or (Type = '"+item.getType()+"' and  Detail like '%"+item.getSomething()+"%') or (Type = '"+item.getType()+"' and  Price = '%"+item.getSomething()+"%')";

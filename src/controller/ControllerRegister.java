@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import library.TimeConvert;
-import model.ModelUsers;
-import bean.Users;
+import model.ModelUser;
+import bean.User;
 
 /**
  * Servlet implementation class ControllerAdminAddUsers
@@ -40,7 +40,7 @@ public class ControllerRegister extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ModelUsers  mUser = new ModelUsers();
+		ModelUser  mUser = new ModelUser();
 		if(request.getParameter("submit")!=null){
 			String userName = request.getParameter("userName");
 			String passWord = request.getParameter("passWord");
@@ -52,7 +52,7 @@ public class ControllerRegister extends HttpServlet {
 			String addDress = request.getParameter("address");
 			addDress = new String(addDress.getBytes("ISO-8859-1"), "UTF-8");
 			String phoneNumber = request.getParameter("phoneNumber");
-			Users objUser = new Users(0, userName, passWord, fullName, birthDay, addDress, phoneNumber);
+			User objUser = new User(0, userName, passWord, fullName, birthDay, addDress, phoneNumber);
 			if(mUser.addItem(objUser)>0){
 				response.sendRedirect(request.getContextPath()+"/index");
 			}else{

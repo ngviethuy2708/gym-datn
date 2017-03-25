@@ -11,12 +11,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.Register;
+import bean.Training;
 import library.LibraryConstant;
 import library.LibraryPer;
 import library.TimeConvert;
 import model.ModelRegister;
-import model.ModelUsers;
+import model.ModelTraining;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerAdminIndexUsers
@@ -44,23 +45,9 @@ public class ControllerAdminIndexUsers extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(!LibraryPer.isLogin(request, response)){
-			return;
-		}
-		ModelUsers mUsers = new ModelUsers();
-		ModelRegister mRegis = new ModelRegister();
-		TimeConvert cv = new TimeConvert();
-		String dateStr = cv.getDateNow();
-		Date dateUtil = cv.getDateTime(dateStr);
-		ArrayList<Register> alRegis = mRegis.getUsersInRegister();
-		for (Register objRegis : alRegis) {
-			java.sql.Date dateSql = objRegis.getEndDate();
-			Date objDate = cv.getNormalDate(dateSql);
-			if(objDate.before(dateUtil)){
-				mUsers.editItemForEnddate(objRegis.getIdUsers());
-			}
-		}
-		int tongSoDong = mUsers.getSum();
+		ModelUser mUser = new ModelUser();
+		ModelTraining mTraining = new ModelTraining();
+		int tongSoDong = mUser.getSum();
 		int soTrang = (int)Math.ceil((float)tongSoDong/LibraryConstant.ROW_COUNT);
 		int currentPage = 1;
 		if(request.getParameter("page") != null){
@@ -69,7 +56,17 @@ public class ControllerAdminIndexUsers extends HttpServlet {
 		request.setAttribute("page", currentPage);
 		request.setAttribute("soTrang", soTrang);
 		int offset = (currentPage-1) * LibraryConstant.ROW_COUNT;
-		request.setAttribute("alUsers", mUsers.getListForPaginator(offset,LibraryConstant.ROW_COUNT));
+		request.setAttribute("alUser", mUser.getListForPaginator(offset,LibraryConstant.ROW_COUNT));
+		ArrayList<Training> alTraining = mTraining.getListForMember();
+		ArrayList<Training> alTrainings = new ArrayList<>();
+		for (Training objTraining : alTraining) {
+			if(objTraining.getSaleId() != 0){
+				alTrainings.add(mTraining.getItemForMemberSale(objTraining.getId()));
+			}else{
+				alTrainings.add(mTraining.getItemForMemberNoSale(objTraining.getId()));
+			}
+		}
+		request.setAttribute("alTraining", alTrainings);
 		RequestDispatcher rd = request.getRequestDispatcher("/admin/indexUsers.jsp");
 		rd.forward(request, response);
 	}

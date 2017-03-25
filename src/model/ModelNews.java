@@ -24,9 +24,9 @@ import library.LibraryString;
 import bean.Introduce;
 import bean.News;
 import bean.Register;
-import bean.SearchUserForDate;
-import bean.SearchUsers;
-import bean.Users;
+import bean.SearchForDate;
+import bean.Search;
+import bean.User;
 
 
 public class ModelNews {

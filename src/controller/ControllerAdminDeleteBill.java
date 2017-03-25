@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import model.ModelBill;
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerAdminDeleteUsers

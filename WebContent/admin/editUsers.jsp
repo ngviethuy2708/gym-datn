@@ -1,6 +1,7 @@
+<%@page import="bean.User"%>
 <%@page import="java.util.Date"%>
 <%@page import="library.TimeConvert"%>
-<%@page import="bean.Users"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="/templates/admin/inc/header.jsp" %>
@@ -13,16 +14,16 @@
 							output ="Trùng Username!";
 						}
 	}
-	Users objUser = (Users)request.getAttribute("objUser");
+	User objUser = (User)request.getAttribute("objUser");
 	TimeConvert cv = new TimeConvert();
-	Date date1 = cv.getNormalDate(objUser.getBirthDay());
-	String date2 = cv.getStringDatetime(date1);
-	%>
+	Date date_until = cv.getNormalDate(objUser.getBirthDay());
+	String date_string = cv.getStringDatetime(date_until);
+	%> 
 	<div class="container">
 		<div class="row body-form">
 			<div class="col-md-12">
-				<form class="form-horizontal form_editUsers" role="form" method="post" action="<%=request.getContextPath() %>/admin/editUsers?uid=<%=objUser.getIdUser()%>">
-					<div class="form-group">
+				<form class="form_editUsers" role="form" method="post" action="<%=request.getContextPath() %>/admin/editUsers?uid=<%=objUser.getId()%>">
+					<%-- <div class="form-group">
     					<label for="inputEmail3" class="col-sm-2 control-label">Username</label>
    						<div class="col-sm-10">
       						<input type="text" name="userName" value = "<%=objUser.getUserName() %>" class="form-control required" id="username" placeholder="">
@@ -73,21 +74,54 @@
 								<input class="button-add btn btn-success create-button" name="sua" type="submit" value="Sửa" /> 
 		        			</p>
     					</div>
-  					</div>
+  					</div> --%>
+  					<div class="row form-group">
+                
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputFullname">Tên đầy đủ(*)</label>
+                    <input type="text" class="form-control" name="fullName" value="<%=objUser.getFullName() %>" placeholder="Nhập họ tên đầy đủ">                  
+                </div>
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputPhone">Số điện thoại(*)</label>
+                    <input type="text" class="form-control" name="phoneNumber" value="<%=objUser.getPhoneNumber() %>" placeholder="Ex:0935353463">                  
+                </div> 
+              </div>
+              <div class="row form-group">
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputBirthday">Ngày sinh(*)</label>
+                     <div class="input-group date" id="date">
+                   	 	<input type="text" class="form-control" name="birthDay" value="<%=date_string %>" placeholder="dd-MM-yyyy"><span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                   	 </div>                  
+                </div>
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputAddress">Địa chỉ(*)</label>
+                    <input type="text" class="form-control" name="address" value="<%=objUser.getAddDress() %>" placeholder="Nhập địa chỉ">                  
+                </div> 
+              </div>
+              <div class="row form-group">
+              
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputUsername">Tên(*)</label>
+                    <input type="text" class="form-control" name="userName" value="<%=objUser.getUserName() %>"  placeholder="Nhập Username">     
+                    <% if(!output.equals("")){%>
+      					<p style="color:red;" >
+							<i class="fa fa-user"></i>
+							<%=output %>
+						</p>
+      				<%} %>             
+                </div>
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputPassword">Mật khẩu(*)</label>
+                    <input type="password" class="form-control" name="passWord" value="<%=objUser.getPassWord() %>" placeholder="**********">                  
+                </div> 
+              </div>
+              <div class="form-group text-right">
+               <span><input class="button-add btn btn-success create-button" name="sua" type="submit" value="Sửa" /> </span>
+               <span><input class="button-add btn btn-danger create-button" name="reset" type="reset" value="Nhập lại" /> </span>
+              </div>                  
   					
-				</form>
+		</form>
 		<script type="text/javascript">
-		$.validator.addMethod(
-			    "myDateFormat",
-			    function(value, element) {
-			        // yyyy-mm-dd
-			        var re = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;
-
-			        // valid if optional and empty OR if it passes the regex test
-			        return (this.optional(element) && value=="") || re.test(value);
-			    }
-			);
-
 $( document ).ready(function() {
 	$(".form_editUsers").validate({
 		rules: {
@@ -102,7 +136,6 @@ $( document ).ready(function() {
 			},
 			birthDay: {
 				required: true,
-				date : true
 			},
 			address: {
 				required: true,
@@ -124,7 +157,6 @@ $( document ).ready(function() {
 			},
 			birthDay: {
 				required: "<span style='color:red;font-weight:bold;font-size:13px;'>Vui lòng nhập ngày tháng năm sinh!</span>",
-				myDateFormat : "<span style='color:red;font-weight:bold;font-size:13px;'>Sai định dạng ngày tháng năm(dd/MM/YYYY)</span>"
 			},
 			address: {
 				required: "<span style='color:red;font-weight:bold;font-size:13px;'>Vui lòng nhập địa chỉ!</span>",
@@ -134,6 +166,16 @@ $( document ).ready(function() {
 				number: "<span style='color:red;font-weight:bold;font-size:13px;'>Dữ liệu bạn nhập không phải là số!</span>",
 			}
 		}
+	});
+});
+</script>
+<script>
+$(document).ready(function() {
+	$(".input-group#date").datepicker({
+		changeYear: true,
+		changeMonth: true,
+		autoclose: true,
+		format: 'dd/mm/yyyy' 
 	});
 });
 </script>

@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.Payments;
 import bean.Training;
-import bean.Users;
+import bean.User;
 import library.LibraryString;
 import library.TimeConvert;
 import model.ModelPayments;
 import model.ModelTraining;
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerEditUsers

@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.Register;
-import bean.Users;
+import bean.User;
 import library.LibraryString;
 import library.TimeConvert;
 import model.ModelRegister;
 import model.ModelTraining;
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerEditUsers

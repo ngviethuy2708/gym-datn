@@ -23,7 +23,7 @@ import model.ModelIntroduce;
 import model.ModelNews;
 import model.ModelProduct;
 import model.ModelRegister;
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerAdminIndexUsers

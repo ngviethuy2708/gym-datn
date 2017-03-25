@@ -14,9 +14,9 @@ import library.TimeConvert;
 import model.ModelExcercises;
 import model.ModelIntroduce;
 import model.ModelNews;
-import model.ModelUsers;
-import bean.SearchUserForDate;
-import bean.SearchUsers;
+import model.ModelUser;
+import bean.SearchForDate;
+import bean.Search;
 
 /**
  * Servlet implementation class ControllerAdminSearchUsers

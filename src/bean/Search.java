@@ -1,6 +1,6 @@
 package bean;
 
-public class SearchUsers {
+public class Search {
 	private String type;
 	private String something;
 	public String getType() {
@@ -15,12 +15,12 @@ public class SearchUsers {
 	public void setSomething(String something) {
 		this.something = something;
 	}
-	public SearchUsers(String type, String something) {
+	public Search(String type, String something) {
 		super();
 		this.type = type;
 		this.something = something;
 	}
-	public SearchUsers() {
+	public Search() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

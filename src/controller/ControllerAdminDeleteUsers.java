@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerAdminDeleteUsers
@@ -37,7 +37,7 @@ public class ControllerAdminDeleteUsers extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ModelUsers mUser = new ModelUsers();
+		ModelUser mUser = new ModelUser();
 		int uid = Integer.parseInt(request.getParameter("uid"));
 		System.out.println(uid);
 		if(mUser.delItem(uid) > 0){

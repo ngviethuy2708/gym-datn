@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class TimeConvert {
 	public static String getStringDatetime(Date date) {
@@ -55,5 +56,37 @@ public class TimeConvert {
 			result = false;
 		}
 		return result;
+	}
+	public static boolean checkSale(String from,String to){
+		Boolean check = false;
+		String curentDateStr = getDateNow();
+		Date curentDateUntil = getDateTime(curentDateStr);
+		java.sql.Date curentDateSql = getSqlDate(curentDateUntil);
+		Date fromUntil = getDateTime(from);
+		java.sql.Date fromSQl = getSqlDate(fromUntil);
+		Date toUntil = getDateTime(to);
+		java.sql.Date toSql = getSqlDate(toUntil);
+		if (from != null && to != null) {
+	        if ((curentDateSql.after(fromSQl) || curentDateSql.equals(fromSQl)) && (curentDateSql.before(toSql) || curentDateSql.equals(toSql))) {
+	            check = true;
+	        }
+	        else {
+	            check = false;
+	        }
+	    }
+		return check;
+	}
+	public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+	    long diffInMillies = date2.getTime() - date1.getTime();
+	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+	}
+	public static Date removeTime(Date date) {    
+	    Calendar cal = Calendar.getInstance();  
+	    cal.setTime(date);  
+	    cal.set(Calendar.HOUR_OF_DAY, 0);  
+	    cal.set(Calendar.MINUTE, 0);  
+	    cal.set(Calendar.SECOND, 0);  
+	    cal.set(Calendar.MILLISECOND, 0);  
+	    return cal.getTime(); 
 	}
 }

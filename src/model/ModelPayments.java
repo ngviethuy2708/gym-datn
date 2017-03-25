@@ -19,10 +19,10 @@ import java.util.ArrayList;
 
 import library.LibraryString;
 import bean.Payments;
-import bean.SearchUserForDate;
-import bean.SearchUsers;
+import bean.SearchForDate;
+import bean.Search;
 import bean.Training;
-import bean.Users;
+import bean.User;
 
 
 public class ModelPayments {

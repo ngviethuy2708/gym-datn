@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import library.LibraryString;
 import library.TimeConvert;
 import bean.Register;
-import bean.SearchUserForDate;
-import bean.SearchUsers;
-import bean.Users;
+import bean.SearchForDate;
+import bean.Search;
+import bean.User;
 
 
 public class ModelRegister {
@@ -244,8 +244,8 @@ public class ModelRegister {
 		}
 		return objRegis;
 	}
-	public Users getIdUser(int uid){
-		Users objUser = null;
+	public User getIdUser(int uid){
+		User objUser = null;
 		String sql = "SELECT Users.Idusers FROM register JOIN users ON register.Idusers = users.Idusers WHERE users.Idusers = ?";
 		conn = mConnect.getConnectSQL();
 		try {
@@ -254,7 +254,7 @@ public class ModelRegister {
 			rs = pst.executeQuery();
 			if(rs.next()){
 				int idUser = rs.getInt("Idusers");
-				objUser = new Users(idUser);
+				objUser = new User(idUser);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -384,7 +384,7 @@ public class ModelRegister {
 		}
 		return alRegister;
 	}
-	public ArrayList<Register> getListForSearch(SearchUsers item){
+	public ArrayList<Register> getListForSearch(Search item){
 		ArrayList<Register> alRegis = new ArrayList<>();
 		conn = mConnect.getConnectSQL();
 		String sql ="SELECT register.Idregister,users.UserName,users.Fullname,users.Birthday,users.Phone,trainingschedule.TrainingName,trainingschedule.TrainingDay,trainingschedule.Trainingprice,register.Begindate,register.Enddate ,register.Type FROM register JOIN users ON register.Idusers = users.Idusers Join trainingschedule ON register.Idtraining = trainingschedule.Idtraining WHERE (register.Type = '"+item.getType()+"'  and  users.Username like '%"+item.getSomething()+"%') or (register.Type = '"+item.getType()+"'  and  users.Fullname like '%"+item.getSomething()+"%')";
@@ -421,7 +421,7 @@ public class ModelRegister {
 		}
 		return alRegis;
 	}
-	public ArrayList<Register> getListForSearchDate(SearchUserForDate item){
+	public ArrayList<Register> getListForSearchDate(SearchForDate item){
 		ArrayList<Register> alRegis = new ArrayList<>();
 		conn = mConnect.getConnectSQL();
 		String sql = "SELECT register.Idregister,users.UserName,users.Fullname,users.Birthday,users.Phone,trainingschedule.TrainingName,trainingschedule.TrainingDay,trainingschedule.Trainingprice,register.Begindate,register.Enddate ,register.Type FROM register JOIN users ON register.Idusers = users.Idusers Join trainingschedule ON register.Idtraining = trainingschedule.Idtraining WHERE  (register.Type = '"+item.getType()+"'  and  register.Begindate = '"+item.getDate()+"') or (register.Type = '"+item.getType()+"'  and  register.Enddate = '"+item.getDate()+"')" ;

@@ -3,21 +3,20 @@ package bean;
 import java.sql.Date;
 
 
-public class Users {
-	private int idUser;
+public class User {
+	private int id;
 	private String userName;
 	private String passWord;
 	private String fullName;
 	private Date birthDay;
 	private String addDress;
 	private String phoneNumber;
-	private boolean isAdmin;
-	private boolean isRegister;
-	public int getIdUser() {
-		return idUser;
+	private boolean isMember;
+	public int getId() {
+		return id;
 	}
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getUserName() {
 		return userName;
@@ -55,53 +54,40 @@ public class Users {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public boolean isAdmin() {
-		return isAdmin;
+	public boolean isMember() {
+		return isMember;
 	}
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setMember(boolean isMember) {
+		this.isMember = isMember;
 	}
-	public boolean isRegister() {
-		return isRegister;
-	}
-	public void setRegister(boolean isRegister) {
-		this.isRegister = isRegister;
-	}
-	public Users(int idUser, String userName, String passWord, String fullName,
-			Date birthDay, String addDress, String phoneNumber,
-			boolean isAdmin, boolean isRegister) {
+	public User(int id, String userName, String passWord, String fullName,
+			Date birthDay, String addDress, String phoneNumber, boolean isMember) {
 		super();
-		this.idUser = idUser;
+		this.id = id;
 		this.userName = userName;
 		this.passWord = passWord;
 		this.fullName = fullName;
 		this.birthDay = birthDay;
 		this.addDress = addDress;
 		this.phoneNumber = phoneNumber;
-		this.isAdmin = isAdmin;
-		this.isRegister = isRegister;
+		this.isMember = isMember;
 	}
 	
-	public Users(int idUser, String userName, String passWord, String fullName,
-			Date birthDay, String addDress, String phoneNumber) {
-		super();
-		this.idUser = idUser;
-		this.userName = userName;
-		this.passWord = passWord;
-		this.fullName = fullName;
-		this.birthDay = birthDay;
-		this.addDress = addDress;
-		this.phoneNumber = phoneNumber;
-	}
-	
-	public Users(int idUser) {
-		super();
-		this.idUser = idUser;
-	}
-	public Users() {
+	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	public User(int id, String userName, String passWord, String fullName,
+			Date birthDay, String addDress, String phoneNumber) {
+		super();
+		this.id = id;
+		this.userName = userName;
+		this.passWord = passWord;
+		this.fullName = fullName;
+		this.birthDay = birthDay;
+		this.addDress = addDress;
+		this.phoneNumber = phoneNumber;
+	}
 	
-
+	
 }

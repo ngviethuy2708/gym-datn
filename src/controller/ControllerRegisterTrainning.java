@@ -17,13 +17,13 @@ import javax.servlet.http.HttpSession;
 
 import bean.Register;
 import bean.Training;
-import bean.Users;
+import bean.User;
 import library.LibraryPer;
 import library.LibraryPerPuclic;
 import library.TimeConvert;
 import model.ModelRegister;
 import model.ModelTraining;
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerIndex
@@ -53,10 +53,10 @@ public class ControllerRegisterTrainning extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ModelTraining mTrainning = new ModelTraining();
 		ModelRegister mRegister = new ModelRegister();
-		ModelUsers mUser = new ModelUsers();
+		ModelUser mUser = new ModelUser();
 		int checkUser = 0;
 		HttpSession ss = request.getSession();
-		Users objUser = (Users)ss.getAttribute("objUser");
+		User objUser = (User)ss.getAttribute("objUser");
 		if(objUser == null){
 			response.sendRedirect(request.getContextPath()+"/index?training=training0");
 			return;
@@ -81,7 +81,7 @@ public class ControllerRegisterTrainning extends HttpServlet {
 				System.out.println(beginDate);
 				int no_of_day_to_add = objTraining.getDayTraining();
 				Date endDate = new Date( beginDate.getYear(), beginDate.getMonth(),beginDate.getDate() + no_of_day_to_add );
-				Users objUserInRegister = mRegister.getIdUser(objUser.getIdUser());
+				User objUserInRegister = mRegister.getIdUser(objUser.getIdUser());
 				if(objUserInRegister != null){
 					int idRegister = mRegister.getIdRegister(objUserInRegister.getIdUser());
 					System.out.println("IDregister:"+idRegister);

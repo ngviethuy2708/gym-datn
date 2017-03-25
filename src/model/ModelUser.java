@@ -16,35 +16,35 @@ import java.util.ArrayList;
 
 
 
+
 import library.LibraryString;
-import bean.SearchUserForDate;
-import bean.SearchUsers;
-import bean.Users;
+import bean.SearchForDate;
+import bean.Search;
+import bean.User;
 
 
-public class ModelUsers {
+public class ModelUser {
 	ModelConnectdb mConnect = new ModelConnectdb();
 	Connection conn;
 	PreparedStatement pst;
 	ResultSet rs;
-	public ArrayList<Users> getList(){
-		ArrayList<Users> alUsers = new ArrayList<>();
+	public ArrayList<User> getList(){
+		ArrayList<User> alUsers = new ArrayList<>();
 		conn = mConnect.getConnectSQL();
-		String sql = "SELECT * FROM users";
+		String sql = "SELECT * FROM user";
 		try {
 			pst = conn.prepareStatement(sql);
 			rs = pst.executeQuery();
 			while(rs.next()){
-				int idUser = rs.getInt("Idusers");
-				String userName = rs.getString("Username");
-				String passWord = rs.getString("Password");
-				String fullName = rs.getString("Fullname");
-				Date birthDay = rs.getDate("Birthday");
-				String addDress = rs.getString("Address");
-				String phoneNumber = rs.getString("Phone");
-				boolean isAdmin = rs.getBoolean("Isadmin");
-				boolean isRegister = rs.getBoolean("isRegister");
-				Users objUser = new Users(idUser, userName, passWord, fullName, birthDay, addDress, phoneNumber, isAdmin, isRegister);
+				int id = rs.getInt("id");
+				String userName = rs.getString("user_name");
+				String passWord = rs.getString("pass_word");
+				String fullName = rs.getString("full_name");
+				Date birthDay = rs.getDate("Birth_day");
+				String addDress = rs.getString("address");
+				String phoneNumber = rs.getString("phone");
+				boolean isMember = rs.getBoolean("is_member");
+				User objUser = new User(id, userName, passWord, fullName, birthDay, addDress, phoneNumber, isMember);
 				alUsers.add(objUser);
 			}
 		} catch (SQLException e) {
@@ -62,11 +62,11 @@ public class ModelUsers {
 		}
 		return alUsers;
 	}
-	public int addItem(Users objUsers){
+	public int addItem(User objUsers){
 		int result = 0;
 		LibraryString lib = new LibraryString();
 		conn = mConnect.getConnectSQL();
-		String sql ="INSERT INTO users(Username,Password,Fullname,Birthday,Address,Phone,Isadmin,Isregister) VALUES (?,?,?,?,?,?,?,?)";
+		String sql ="INSERT INTO user(user_name,pass_word,full_name,Birth_day,address,phone,is_member) VALUES (?,?,?,?,?,?,?)";
 		try {
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, objUsers.getUserName());
@@ -76,7 +76,6 @@ public class ModelUsers {
 			pst.setString(5, objUsers.getAddDress());
 			pst.setString(6, objUsers.getPhoneNumber());
 			pst.setBoolean(7, false);
-			pst.setBoolean(8, false);
 			pst.executeUpdate();
 			result = 1;
 		} catch (SQLException e) {
@@ -96,7 +95,7 @@ public class ModelUsers {
 	
 	public int delItem(int uid){
 		int result = 0;
-		String sql = "DELETE FROM users WHERE Idusers = ?";
+		String sql = "DELETE FROM user WHERE id = ?";
 		conn = mConnect.getConnectSQL();
 		try {
 			pst = conn.prepareStatement(sql);
@@ -118,23 +117,24 @@ public class ModelUsers {
 		return result;
 	}
 	
-	public Users getItem(int uid){
-		Users objUser = null;
-		String sql = "SELECT * FROM users WHERE Idusers = ?";
+	public User getItem(int uid){
+		User objUser = null;
+		String sql = "SELECT * FROM user WHERE id = ?";
 		conn = mConnect.getConnectSQL();
 		try {
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1, uid);
 			rs = pst.executeQuery();
 			if(rs.next()){
-				int idUser = rs.getInt("Idusers");
-				String userName = rs.getString("Username");
-				String passWord = rs.getString("Password");
-				String fullName = rs.getString("Fullname");
-				Date birthDay = rs.getDate("Birthday");
-				String addDress = rs.getString("Address");
-				String phoneNumber = rs.getString("Phone");
-				objUser = new Users(idUser, userName, passWord, fullName, birthDay, addDress, phoneNumber);
+				int id = rs.getInt("id");
+				String userName = rs.getString("user_name");
+				String passWord = rs.getString("pass_word");
+				String fullName = rs.getString("full_name");
+				Date birthDay = rs.getDate("birth_day");
+				String addDress = rs.getString("address");
+				String phoneNumber = rs.getString("phone");
+				boolean isMember = rs.getBoolean("is_member");
+				objUser = new User(id, userName, passWord, fullName, birthDay, addDress, phoneNumber, isMember);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -152,10 +152,10 @@ public class ModelUsers {
 		return objUser;
 	}
 	
-	public int editItem(Users objUsers){
+	public int editItem(User objUsers){
 		int result = 0;
 		LibraryString lib = new LibraryString();
-		String sql ="UPDATE users SET Username = ?,Password = ?, Fullname = ?, Birthday = ?,Address = ?,Phone = ? WHERE Idusers = ? LIMIT 1";
+		String sql ="UPDATE user SET user_name = ?,pass_word = ?, full_name = ?, birth_day = ?,address = ?,phone = ? WHERE id = ? LIMIT 1";
 		conn = mConnect.getConnectSQL();
 		try {
 			pst = conn.prepareStatement(sql);
@@ -165,7 +165,7 @@ public class ModelUsers {
 			pst.setDate(4, objUsers.getBirthDay());
 			pst.setString(5, objUsers.getAddDress());
 			pst.setString(6, objUsers.getPhoneNumber());
-			pst.setInt(7, objUsers.getIdUser());
+			pst.setInt(7, objUsers.getId());
 			pst.executeUpdate();
 			result = 1;
 		} catch (SQLException e) {
@@ -182,7 +182,7 @@ public class ModelUsers {
 		}
 		return result;
 	}
-	public int editItemForRegister(int IdUsers){
+	/*public int editItemForRegister(int IdUsers){
 		int result = 0;
 		LibraryString lib = new LibraryString();
 		String sql ="UPDATE users SET Isregister = 1 WHERE Idusers = ? ";
@@ -205,10 +205,10 @@ public class ModelUsers {
 			}
 		}
 		return result;
-	}
+	}*/
 	public int getSum(){
 		int sodong = 0;
-		String sql ="SELECT COUNT(Idusers) AS sodong FROM users ";
+		String sql ="SELECT COUNT(id) AS sodong FROM user ";
 		conn = mConnect.getConnectSQL();
 		try {
 			pst = conn.prepareStatement(sql);
@@ -231,27 +231,26 @@ public class ModelUsers {
 		}
 		return sodong;
 	}
-	public ArrayList<Users> getListForPaginator(int offset, int rowCount){
-		ArrayList<Users> alUsers = new ArrayList<>();
+	public ArrayList<User> getListForPaginator(int offset, int rowCount){
+		ArrayList<User> alUser = new ArrayList<>();
 		conn = mConnect.getConnectSQL();
-		String sql = "SELECT * FROM users LIMIT ?,?";
+		String sql = "SELECT * FROM user LIMIT ?,?";
 		try {
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1, offset);
 			pst.setInt(2, rowCount);
 			rs = pst.executeQuery();
 			while(rs.next()){
-				int idUser = rs.getInt("Idusers");
-				String userName = rs.getString("Username");
-				String passWord = rs.getString("Password");
-				String fullName = rs.getString("Fullname");
-				Date birthDay = rs.getDate("Birthday");
-				String addDress = rs.getString("Address");
-				String phoneNumber = rs.getString("Phone");
-				boolean isAdmin = rs.getBoolean("Isadmin");
-				boolean isRegister = rs.getBoolean("isRegister");
-				Users objUser = new Users(idUser, userName, passWord, fullName, birthDay, addDress, phoneNumber, isAdmin, isRegister);
-				alUsers.add(objUser);
+				int id = rs.getInt("id");
+				String userName = rs.getString("user_name");
+				String passWord = rs.getString("pass_word");
+				String fullName = rs.getString("full_name");
+				Date birthDay = rs.getDate("Birth_day");
+				String addDress = rs.getString("address");
+				String phoneNumber = rs.getString("phone");
+				boolean isMember = rs.getBoolean("is_member");
+				User objUser = new User(id, userName, passWord, fullName, birthDay, addDress, phoneNumber, isMember);
+				alUser.add(objUser);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -266,27 +265,26 @@ public class ModelUsers {
 				e.printStackTrace();
 			}
 		}
-		return alUsers;
+		return alUser;
 	}
-	public ArrayList<Users> getListForSearch(SearchUsers item){
-		ArrayList<Users> alUsers = new ArrayList<>();
+	public ArrayList<User> getListForSearch(Search item){
+		ArrayList<User> alUser = new ArrayList<>();
 		conn = mConnect.getConnectSQL();
-		String sql = "select * from users where (Isregister = '"+item.getType()+"' and  Username like '%"+item.getSomething()+"%') or (Isregister = '"+item.getType()+"' and  Fullname like '%"+item.getSomething()+"%')";
+		String sql = "select * from user where (is_member = '"+item.getType()+"' and  user_name like '%"+item.getSomething()+"%') or (is_member = '"+item.getType()+"' and  full_name like '%"+item.getSomething()+"%')";
 		try {
 			pst = conn.prepareStatement(sql);
 			rs = pst.executeQuery();
 			while(rs.next()){
-				int idUser = rs.getInt("Idusers");
-				String userName = rs.getString("Username");
-				String passWord = rs.getString("Password");
-				String fullName = rs.getString("Fullname");
-				Date birthDay = rs.getDate("Birthday");
-				String addDress = rs.getString("Address");
-				String phoneNumber = rs.getString("Phone");
-				boolean isAdmin = rs.getBoolean("Isadmin");
-				boolean isRegister = rs.getBoolean("isRegister");
-				Users objUser = new Users(idUser, userName, passWord, fullName, birthDay, addDress, phoneNumber, isAdmin, isRegister);
-				alUsers.add(objUser);
+				int id = rs.getInt("id");
+				String userName = rs.getString("user_name");
+				String passWord = rs.getString("pass_word");
+				String fullName = rs.getString("full_name");
+				Date birthDay = rs.getDate("Birth_day");
+				String addDress = rs.getString("address");
+				String phoneNumber = rs.getString("phone");
+				boolean isMember = rs.getBoolean("is_member");
+				User objUser = new User(id, userName, passWord, fullName, birthDay, addDress, phoneNumber, isMember);
+				alUser.add(objUser);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -301,27 +299,26 @@ public class ModelUsers {
 				e.printStackTrace();
 			}
 		}
-		return alUsers;
+		return alUser;
 	}
-	public ArrayList<Users> getListForSearchDate(SearchUserForDate item){
-		ArrayList<Users> alUsers = new ArrayList<>();
+	public ArrayList<User> getListForSearchDate(SearchForDate item){
+		ArrayList<User> alUser = new ArrayList<>();
 		conn = mConnect.getConnectSQL();
-		String sql = "select * from users where (Isregister = '"+item.getType()+"' and  Birthday = '"+item.getDate()+"') ";
+		String sql = "select * from user where (is_member = '"+item.getType()+"' and  birth_day = '"+item.getDate()+"') ";
 		try {
 			pst = conn.prepareStatement(sql);
 			rs = pst.executeQuery();
 			while(rs.next()){
-				int idUser = rs.getInt("Idusers");
-				String userName = rs.getString("Username");
-				String passWord = rs.getString("Password");
-				String fullName = rs.getString("Fullname");
-				Date birthDay = rs.getDate("Birthday");
-				String addDress = rs.getString("Address");
-				String phoneNumber = rs.getString("Phone");
-				boolean isAdmin = rs.getBoolean("Isadmin");
-				boolean isRegister = rs.getBoolean("isRegister");
-				Users objUser = new Users(idUser, userName, passWord, fullName, birthDay, addDress, phoneNumber, isAdmin, isRegister);
-				alUsers.add(objUser);
+				int id = rs.getInt("id");
+				String userName = rs.getString("user_name");
+				String passWord = rs.getString("pass_word");
+				String fullName = rs.getString("full_name");
+				Date birthDay = rs.getDate("birth_day");
+				String addDress = rs.getString("address");
+				String phoneNumber = rs.getString("phone");
+				boolean isMember = rs.getBoolean("is_member");
+				User objUser = new User(id, userName, passWord, fullName, birthDay, addDress, phoneNumber, isMember);
+				alUser.add(objUser);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -336,9 +333,32 @@ public class ModelUsers {
 				e.printStackTrace();
 			}
 		}
-		return alUsers;
+		return alUser;
 	}
-	public int editItemForEnddate(int IdUsers){
+	public int setActive(int id) {
+		int result = 0;
+		conn = mConnect.getConnectSQL();
+		try {
+			String sql = "UPDATE user SET is_member = 1 WHERE id =?";
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.executeUpdate();
+			result = 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			try {
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+	/*public int editItemForEnddate(int IdUsers){
 		int result = 0;
 		LibraryString lib = new LibraryString();
 		String sql ="UPDATE users SET Isregister = 0 WHERE Idusers = ? ";
@@ -361,9 +381,9 @@ public class ModelUsers {
 			}
 		}
 		return result;
-	}
-	public Users getUserByUserPass(String username, String password) {
-		Users objUsers = null;
+	}*/
+	/*public User getUserByUserPass(String username, String password) {
+		User objUsers = null;
 		String sql = "SELECT * FROM users WHERE username = ? && password = ?";
 		conn = mConnect.getConnectSQL();
 		try {
@@ -381,7 +401,7 @@ public class ModelUsers {
 				String phoneNumber = rs.getString("Phone");
 				boolean isAdmin = rs.getBoolean("Isadmin");
 				boolean isRegister = rs.getBoolean("isRegister");
-				objUsers = new Users(idUser, userName, passWord, fullName, birthDay, addDress, phoneNumber, isAdmin, isRegister);
+				objUsers = new User(idUser, userName, passWord, fullName, birthDay, addDress, phoneNumber, isAdmin, isRegister);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -398,5 +418,5 @@ public class ModelUsers {
 		}
 		return objUsers;
 		
-	}
+	}*/
 }

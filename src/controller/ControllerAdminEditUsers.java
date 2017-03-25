@@ -10,10 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bean.Users;
+import bean.User;
 import library.LibraryString;
 import library.TimeConvert;
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerEditUsers
@@ -41,7 +41,7 @@ public class ControllerAdminEditUsers extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ModelUsers mUser = new ModelUsers();
+		ModelUser mUser = new ModelUser();
 		TimeConvert cv = new TimeConvert();
 		int uid = 0;
 		if(request.getParameter("uid") != null){
@@ -52,13 +52,13 @@ public class ControllerAdminEditUsers extends HttpServlet {
 			String passWord = request.getParameter("passWord");
 			String fullName = request.getParameter("fullName");
 			fullName = new String(fullName.getBytes("ISO-8859-1"), "UTF-8");
-			String date1 = request.getParameter("birthDay");
-			Date  date2 = cv.getDateTime(date1);
-			java.sql.Date date3 = cv.getSqlDate(date2);
+			String date = request.getParameter("birthDay");
+			java.util.Date date_until = TimeConvert.getDateTime(date);
+			java.sql.Date birthDay = TimeConvert.getSqlDate(date_until);
 			String addDress = request.getParameter("address");
 			addDress = new String(addDress.getBytes("ISO-8859-1"), "UTF-8");
 			String phoneNumber = request.getParameter("phoneNumber");
-			Users objUser = new Users(uid, userName, passWord, fullName, date3, addDress, phoneNumber);
+			User objUser = new User(uid, userName, passWord, fullName, birthDay, addDress, phoneNumber, false);
 			if(mUser.editItem(objUser)>0){
 				response.sendRedirect(request.getContextPath()+"/admin/indexUsers");
 			}else{

@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.Users;
+import bean.User;
 import library.LibraryString;
 import library.TimeConvert;
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerEditUsers
@@ -42,7 +42,7 @@ public class ControllerEditUsers extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ModelUsers mUser = new ModelUsers();
+		ModelUser mUser = new ModelUser();
 		TimeConvert cv = new TimeConvert();
 		if(request.getParameter("submit") != null){
 			int uid = Integer.parseInt( request.getParameter("uid"));
@@ -56,13 +56,9 @@ public class ControllerEditUsers extends HttpServlet {
 			String addDress = request.getParameter("address");
 			addDress = new String(addDress.getBytes("ISO-8859-1"), "UTF-8");
 			String phoneNumber = request.getParameter("phoneNumber");
-			Users objUser = new Users(uid, userName, passWord, fullName, date3, addDress, phoneNumber);
+			User objUser = new User(uid, userName, passWord, fullName, date3, addDress, phoneNumber);
 			if(mUser.editItem(objUser)>0){
-				response.sendRedirect(request.getContextPath()+"/index");
-				HttpSession ss = request.getSession();
-				ss.setAttribute("objUser", objUser);
-			}else{
-				response.sendRedirect(request.getContextPath()+"/index");
+				response.sendRedirect(request.getContextPath()+"/indexUser");
 			}
 		}
 	}

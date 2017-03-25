@@ -1,82 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="/templates/admin/inc/header.jsp" %>
-	
-	<%
-	String output = "";
-	if(request.getParameter("msg") != null){
-						String msg = request.getParameter("msg");
-						if("add0".equals(msg)){
-							output ="Trùng Username!";
-						}
-	}					
-	%>
 	<div class="container">
 		<div class="row body-form">
 			<div class="col-md-12">
-				<form class="form-horizontal form_addUsers" role="form" method="post" action="<%=request.getContextPath() %>/admin/addUsers">
-					<div class="form-group">
-    					<label for="inputEmail3" class="col-sm-2 control-label">Username</label>
-   						<div class="col-sm-10">
-      						<input type="text" name="userName" class="form-control required" id="username" placeholder="">
-      						<% if(!output.equals("")){%>
-      						<p style="color:red;" >
-								<i class="fa fa-user"></i>
-								<%=output %>
-								</p>
-      						<%} %>
-    					</div>
- 					</div>
- 					<div class="form-group">
-    					<label for="inputEmail3" class="col-sm-2 control-label">Password</label>
-   						<div class="col-sm-10">
-      						<input type="password" name="passWord" class="form-control" id="password" placeholder="">
-    					</div>
- 					</div>
- 					<div class="form-group">
-    					<label for="inputEmail3" class="col-sm-2 control-label">Họ tên</label>
-   						<div class="col-sm-10">
-      						<input type="text" name="fullName" class="form-control" id="fullname" placeholder="">
-    					</div>
- 					 </div>
- 					<div class="form-group">
-    					<label for="inputEmail3" class="col-sm-2 control-label">Ngày sinh</label>
-   						<div class="col-sm-10">
-      						<input type="text" name="birthDay" class="form-control myDateFormat" id="birthday" placeholder="dd/MM/yyyy">
-    					</div>
- 					</div>
- 						<div class="form-group">
-    					<label for="inputEmail3" class="col-sm-2 control-label">Địa chỉ</label>
-   						<div class="col-sm-10">
-      						<input type="text" name="address" class="form-control" id="address" placeholder="">
-    					</div>
- 					</div>
- 						<div class="form-group">
-    					<label for="inputEmail3" class="col-sm-2 control-label">Số điện thoại</label>
-   						<div class="col-sm-10">
-      						<input type="text" name="phoneNumber" class="form-control" id="phone" placeholder="">
-    					</div>
- 					</div>
- 					<div class="form-group">
-    					<div class="col-sm-offset-2 col-sm-10">
-     						<p>
-								<input class="button-add btn btn-success create-button" name="submit" type="submit" value="Thêm" /> 
-		        			</p>
-    					</div>
-  					</div>
-  					
-				</form>
+		<form action="<%=request.getContextPath() %>/admin/addUsers" class="form_addUsers" method="post">
+              <div class="row form-group">
+                
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputFullname">Tên đầy đủ(*)</label>
+                    <input type="text" class="form-control" name="fullName" placeholder="Nhập họ tên đầy đủ">                  
+                </div>
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputPhone">Số điện thoại(*)</label>
+                    <input type="text" class="form-control" name="phoneNumber"  placeholder="Ex:0935353463">                  
+                </div> 
+              </div>
+              <div class="row form-group">
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputBirthday">Ngày sinh(*)</label>
+                     <div class="input-group date" id="date">
+                    	<input type="text" class="form-control" name="birthDay"  placeholder="dd-MM-yyyy"><span class="input-group-addon"><i class="fa fa-calendar"></i></span> 
+                    </div>                 
+                </div>
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputAddress">Địa chỉ(*)</label>
+                    <input type="text" class="form-control" name="address" placeholder="Nhập địa chỉ">                  
+                </div> 
+              </div>
+              <div class="row form-group">
+              
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputUsername">Tên(*)</label>
+                    <input type="text" class="form-control" name="userName"  placeholder="Nhập Username">                  
+                </div>
+                <div class="col-lg-6 col-md-6 form-group">                  
+                    <label for="inputPassword">Mật khẩu(*)</label>
+                    <input type="password" class="form-control" name="passWord"  placeholder="**********">                  
+                </div> 
+              </div>
+              <div class="form-group text-right">
+               <span><input class="button-add btn btn-success create-button" name="submit" type="submit" value="Thêm" /> </span>
+               <span><input class="button-add btn btn-danger create-button" name="reset" type="reset" value="Nhập lại" /> </span>
+              </div>                           
+            </form>
 				<script type="text/javascript">
-				$.validator.addMethod(
-					    "myDateFormat",
-					    function(value, element) {
-					        // yyyy-mm-dd
-					        var re = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/;
-
-					        // valid if optional and empty OR if it passes the regex test
-					        return (this.optional(element) && value=="") || re.test(value);
-					    }
-					);
 $( document ).ready(function() {
 	$(".form_addUsers").validate({
 		rules: {
@@ -123,6 +91,16 @@ $( document ).ready(function() {
 				number: "<span style='color:red;font-weight:bold;font-size:13px;'>Dữ liệu bạn nhập không phải là số!</span>",
 			}
 		}
+	});
+});
+</script>
+<script>
+$(document).ready(function() {
+	$(".input-group#date").datepicker({
+		changeYear: true,
+		changeMonth: true,
+		autoclose: true,
+		format: 'dd/mm/yyyy' 
 	});
 });
 </script>

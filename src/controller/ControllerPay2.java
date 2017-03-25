@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.Bill;
-import bean.Users;
+import bean.User;
 import library.TimeConvert;
 
 /**
@@ -42,7 +42,7 @@ public class ControllerPay2 extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TimeConvert cv = new TimeConvert();
 		HttpSession ss = request.getSession();
-		Users objU = (Users)ss.getAttribute("objUser");
+		User objU = (User)ss.getAttribute("objUser");
 		if(request.getParameter("submit")!=null){
 			int id = Integer.parseInt(request.getParameter("thanhtoan"));
 			String thongtinthem = request.getParameter("thongtinthem");

@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import library.TimeConvert;
 import model.ModelIntroduce;
-import model.ModelUsers;
-import bean.SearchUserForDate;
-import bean.SearchUsers;
+import model.ModelUser;
+import bean.SearchForDate;
+import bean.Search;
 
 /**
  * Servlet implementation class ControllerAdminSearchUsers

@@ -9,7 +9,7 @@ public class ModelConnectdb {
 		Connection conn = null;
 		String username ="root";
 		String pass = "";
-		String url="jdbc:mysql://localhost:3306/gym?useUnicode=true&characterEncoding=UTF-8";
+		String url="jdbc:mysql://localhost:3306/gym_manager?useUnicode=true&characterEncoding=UTF-8";
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");

@@ -20,7 +20,7 @@ import library.TimeConvert;
 import model.ModelIntroduce;
 import model.ModelNews;
 import model.ModelRegister;
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerAdminIndexUsers

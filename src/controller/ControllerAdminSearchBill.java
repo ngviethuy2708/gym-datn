@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import library.TimeConvert;
 import model.ModelBill;
-import model.ModelUsers;
-import bean.SearchUserForDate;
-import bean.SearchUsers;
+import model.ModelUser;
+import bean.SearchForDate;
+import bean.Search;
 
 /**
  * Servlet implementation class ControllerAdminSearchUsers
@@ -52,12 +52,12 @@ public class ControllerAdminSearchBill extends HttpServlet {
 		}
 		if(cv.isDate(something) == false){
 			String something2 = new String(something.getBytes("ISO-8859-1"), "UTF-8");
-			SearchUsers item = new SearchUsers(type, something2);
+			Search item = new Search(type, something2);
 			request.setAttribute("alBill",mBill.getListForSearch(item) );
 		}else{
 			Date dateUntil = cv.getDateTime(something);
 			java.sql.Date dateSQl = cv.getSqlDate(dateUntil);
-			SearchUserForDate item2 = new SearchUserForDate(type, dateSQl);
+			SearchForDate item2 = new SearchForDate(type, dateSQl);
 			request.setAttribute("alBill", mBill.getListForSearchDate(item2));	
 		}
 		RequestDispatcher rd = request.getRequestDispatcher("/admin/searchBill.jsp");

@@ -17,7 +17,7 @@ import org.apache.jena.iri.impl.Force;
 import library.LibraryPerPuclic;
 import model.ModelProduct;
 import bean.Product;
-import bean.Users;
+import bean.User;
 
 /**
  * Servlet implementation class ControllerAjaxBuyProduct

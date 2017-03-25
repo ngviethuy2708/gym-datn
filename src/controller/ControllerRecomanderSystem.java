@@ -15,10 +15,10 @@ import org.apache.jena.base.Sys;
 import RecomanderSystems.Matran;
 import bean.DanhGia;
 import bean.Product;
-import bean.Users;
+import bean.User;
 import model.ModelDanhGia;
 import model.ModelProduct;
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerRecomanderSystem
@@ -46,10 +46,10 @@ public class ControllerRecomanderSystem extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ModelUsers mUser = new ModelUsers();
+		ModelUser mUser = new ModelUser();
 		ModelProduct mPro = new ModelProduct();
 		ModelDanhGia mDanhGia = new ModelDanhGia();
-		ArrayList<Users> alUser = mUser.getList();
+		ArrayList<User> alUser = mUser.getList();
 		ArrayList<Product> alProducts = mPro.getList();
 		ArrayList<DanhGia> alDanhGias = mDanhGia.getList();
 		int m = alUser.size();

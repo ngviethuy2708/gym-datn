@@ -26,10 +26,10 @@ import library.LibraryString;
 import bean.Bill;
 import bean.DetailBill;
 import bean.Product;
-import bean.SearchUserForDate;
-import bean.SearchUsers;
+import bean.SearchForDate;
+import bean.Search;
 import bean.Training;
-import bean.Users;
+import bean.User;
 
 
 public class ModelDetailBill {

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.ModelPayments;
 import model.ModelTraining;
-import model.ModelUsers;
+import model.ModelUser;
 
 /**
  * Servlet implementation class ControllerAdminDeleteUsers
