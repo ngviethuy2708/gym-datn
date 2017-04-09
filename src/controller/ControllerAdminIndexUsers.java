@@ -15,7 +15,6 @@ import bean.Training;
 import library.LibraryConstant;
 import library.LibraryPer;
 import library.TimeConvert;
-import model.ModelRegister;
 import model.ModelTraining;
 import model.ModelUser;
 

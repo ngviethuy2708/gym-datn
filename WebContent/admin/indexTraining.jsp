@@ -28,7 +28,7 @@
 								</div> 
        						 </div>
   							<div class="form-group">
-    							<input name="something" type="text" class="form-control" id="exampleInputPassword2" placeholder=".....">
+    							<input name="something" type="text" class="form-control" id="exampleInputPassword2" placeholder="keyword">
   							</div>
   							<input class="button-add btn btn-primary create-button" name="submit" type="submit" value="Tìm kiếm" /> 
 						</form>
@@ -45,7 +45,7 @@
 							<th>NGÀY KHỞI TẠO </th>
 							<th>MÔ TẢ</th>
 							<th>SỐ NGÀY TẬP</th>
-							<th style="width: 98px;">GÍA</th>
+							<th style="width: 120px;">GÍA</th>
 							<th>KÍCH HOẠT</th>
 							<th>SỬA</th>
 						</tr>
@@ -54,6 +54,7 @@
 					<%
 					ArrayList<Training> alTraining = (ArrayList<Training>)request.getAttribute("alTraining");
 					for(Training objTraining:alTraining){
+						String price = String.format("%,d",objTraining.getPrice());
 						String imgActive = "";
 						String isActive = "";
 						int type;
@@ -72,13 +73,13 @@
 							<td><img class="img-rounded" src="<%=request.getContextPath()%>/files/<%=objTraining.getPicture()%>" width="100px" height ="80px"></td>
 							<td><%=objTraining.getName()%></td>
 							<td><%=TimeConvert.getStringDatetime(objTraining.getDateCreate())%></td>
-							<td><%=objTraining.getPreview() %></td>
+							<td style="width: 168px;"><%=objTraining.getPreview() %></td>
 							<td><%=objTraining.getDayOfTraining() %> ngày</td> 
 							<td>
 							<%if(objTraining.getDiscount()!=0) {%>
-							<%=objTraining.getPrice()%> VNĐ (Đang giảm giá <%=objTraining.getDiscount()%>%)
+							<%=price%> VNĐ (Đang giảm giá <%=objTraining.getDiscount()%>%)
 							<%}else{ %>
-							<%=objTraining.getPrice()%> VNĐ
+							<%=price%> VNĐ
 							<%} %>
 							</td>
 							<td class="align-center" id="setactive-<%=objTraining.getId() %>">

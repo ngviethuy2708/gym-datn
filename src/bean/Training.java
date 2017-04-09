@@ -168,10 +168,11 @@ public class Training {
 		this.price = price;
 	}
 	
-	public Training(int id, String picture, int priceId, int saleId,
+	public Training(int id, String preview ,String picture, int priceId, int saleId,
 			Date dateCreate) {
 		super();
 		this.id = id;
+		this.preview = preview;
 		this.picture = picture;
 		this.priceId = priceId;
 		this.saleId = saleId;

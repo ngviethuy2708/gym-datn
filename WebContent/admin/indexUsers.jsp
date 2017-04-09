@@ -28,7 +28,7 @@
 								</div> 
        						 </div>
   							<div class="form-group">
-    							<input name="something" type="text" class="form-control" id="exampleInputPassword2" placeholder=".....">
+    							<input name="something" type="text" class="form-control" id="exampleInputPassword2" placeholder="keyword">
   							</div>
   							<input class="button-add btn btn-primary create-button" name="submit" type="submit" value="Tìm kiếm" /> 
 						</form>
@@ -47,8 +47,6 @@
 							<th style="width: 123px;">SỐ ĐIỆN THOẠI</th>
 							<th>HỘI VIÊN</th>
 							<th style="width:10px;">SỬA</th>
-							<th style="width:10px;">XÓA</th>
-							
 						</tr>
 					</thead>
 					<tbody>
@@ -69,7 +67,6 @@
 								<td><img style="width:30px; height:30px;" src="<%=request.getContextPath() %>/templates/admin/images/icon-success.png" alt=""></td>
 							<%} %>
 							<td><a href="<%=request.getContextPath()%>/admin/editUsers?uid=<%=objUser.getId()%>"><i class="fa fa-edit"></i></a></td>
-							<td><a onclick="return confirm('bạn có muốn xóa ko?')" href="<%=request.getContextPath()%>/admin/deleteUsers?uid=<%=objUser.getId()%>"><i class="fa fa-times"></i></a></td>
 						</tr>
 					<%} %>
 					
@@ -111,7 +108,7 @@
       </div>
       <div class="modal-body">
 		<input type="hidden" name="userID" value="">
-       	<form class="form-horizontal form_register" role="form" method="post">
+       	<form class="form-horizontal form_register" action ="<%=request.getContextPath() %>/admin/activeMember" role="form" method="post">
          	<div class="form-group">
     			<label for="inputEmail3" class="col-sm-3 control-label">Chọn lịch tập:</label>
    				<div class="col-sm-9">
@@ -153,11 +150,26 @@
         		<button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
        			<a id="addMember"><input class="button-add btn btn-success create-button" name="submit" type="submit" value="Xác nhận" /></a> 
      		</div>
+     		<input type="hidden" id="user_id" name="userId" value="">
+     		<input type="hidden" id="training_id" name="trainingId" value="">
+     		<input type="hidden" id="price_id" name="priceId" value="">
+     		<input type="hidden" id="sale_iD" name="saleId" value="">
         </form>
       </div>
     </div>
   </div>
 </div>
+<%
+	String msg = "";
+	if(request.getParameter("active") != null){
+		msg = request.getParameter("active");
+		if(msg.equals("success")){
+%>
+<script>
+	swal("Chúc mừng!", "Bạn đã kích hoạt hội viên thành công!", "success")
+</script>
+		<%} %>
+	<%} %>
 <script>
 function parseDate(dateStr) {
     var parts = dateStr.split("-");
@@ -168,13 +180,18 @@ $('#training').change(function(){
 	select_training();
 });
 function select_training(){
+	var user_id =  $("#userId").attr("data-id");
+	$('#user_id').val(user_id);
 	var training = $('#training option:selected');
 	if (training) {
 		var idTraining = training.attr('id');
+		$('#training_id').val(idTraining);
 		var price = training.attr('price');
 		var discount = training.attr('discount');
 		var priceId = training.attr('idPrice');
+		$('#price_id').val(priceId);
 		var saleID = training.attr('idSale');
+		$('#sale_iD').val(saleID);
 		
 		var dateFrom = new Date(training.attr('dateFrom')).getTime();
 		var dateTo = new Date(training.attr('dateTo')).getTime();
@@ -183,10 +200,6 @@ function select_training(){
 		
 		var current_date = new Date().getTime();
 		/* current_date.setHours(0, 0, 0, 0); */
-		
-		console.log(dateFrom);
-		console.log(dateTo);
-		console.log(current_date);
 		if(saleID != 0){
 			if((dateFrom <= current_date ) && (current_date <= dateTo  )){
 				var curent_price = price - ((price*discount)/100);
@@ -208,27 +221,5 @@ function select_training(){
 		}	
 	}
 }
-</script>
-<script>
-$('#addMember').on('click', function() {
-    var user_id =  $("#userId").attr("data-id");
-	var training = $('#training option:selected');
-	var training_id = 0;
-	var price_id = 0;
-	var sale_id = 0;
-	if(training){
-		training_id = training.attr('id');
-		price_id = training.attr('idPrice');
-		sale_id = training.attr('idSale');
-	}
-	$.ajax({
-		type: 'GET',
-		url: '<%=request.getContextPath() %>/admin/activeMember',
-		data: {'userId': user_id, 'trainingId': training_id, 'priceId': price_id, 'saleId': sale_id },
-		success: function(response) {
-			console.log('abc');
-		}
-	});
-});
 </script>
 </html>

@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,23 +8,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.jni.Mmap;
-
-import bean.Register;
-import library.LibraryConstant;
-import library.LibraryPer;
-import library.TimeConvert;
-import model.ModelExcercises;
-import model.ModelIntroduce;
-import model.ModelNews;
-import model.ModelRegister;
-import model.ModelUser;
+import model.ModelFitnessExcercises;
 
 /**
- * Servlet implementation class ControllerAdminIndexUsers
+ * Servlet implementation class ControllerAdminIndexExcercises
  */
-
 public class ControllerAdminIndexExcercises extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -49,21 +37,15 @@ public class ControllerAdminIndexExcercises extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(!LibraryPer.isLogin(request, response)){
-			return;
+		int cid = 0;
+		ModelFitnessExcercises mEx = new ModelFitnessExcercises();
+		if(request.getParameter("cid") != null){
+			cid = Integer.parseInt(request.getParameter("cid"));
 		}
-		ModelExcercises  mEx = new ModelExcercises();
-		int tongSoDong = mEx.getSum();
-		int soTrang = (int)Math.ceil((float)tongSoDong/LibraryConstant.ROW_COUNT);
-		int currentPage = 1;
-		if(request.getParameter("page") != null){
-			currentPage = Integer.parseInt(request.getParameter("page"));
-		}
-		request.setAttribute("page", currentPage);
-		request.setAttribute("soTrang", soTrang);
-		int offset = (currentPage-1) * LibraryConstant.ROW_COUNT;
-		request.setAttribute("alEx", mEx.getListForPaginator(offset,LibraryConstant.ROW_COUNT));
-		RequestDispatcher rd = request.getRequestDispatcher("/admin/indexExcercises.jsp");
+		request.setAttribute("alEx", mEx.getExcercises(cid));
+		HttpSession ss = request.getSession();
+		ss.setAttribute("idCategory", cid);
+		RequestDispatcher rd  = request.getRequestDispatcher("/admin/indexExcercises.jsp");
 		rd.forward(request, response);
 	}
 

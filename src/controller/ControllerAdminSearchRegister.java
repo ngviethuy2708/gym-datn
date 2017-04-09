@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import library.TimeConvert;
 import model.ModelHistory;
 import model.ModelMember;
-import model.ModelRegister;
 import model.ModelTraining;
 import model.ModelUser;
 import bean.DayOff;
@@ -80,8 +79,30 @@ public class ControllerAdminSearchRegister extends HttpServlet {
 		ArrayList<Member> alExpected = new ArrayList<>();
 		ArrayList<Member> alExprired = new ArrayList<>();
 		ArrayList<Member> alDayOffMember = new ArrayList<>();
+		ArrayList<Member> alMemberTrue = new ArrayList<>();
  		if(request.getParameter("submit") != null){
 			int value = Integer.parseInt(request.getParameter("sortMember"));
+			if(value == 0){
+				for(Member objMember:alMember){
+					int dayoff = mHistory.getDayOff(objMember.getCurentHistoryId());
+					String curentDateStr = TimeConvert.getDateNow();
+					Date curentDateUntil = TimeConvert.getDateTime(curentDateStr);
+					java.sql.Date curentDateSql = TimeConvert.getSqlDate(curentDateUntil);
+					Calendar c = Calendar.getInstance();
+					c.set(Calendar.DAY_OF_MONTH,objMember.getBeginDay().getDate());
+					c.set(Calendar.MONTH, objMember.getBeginDay().getMonth());
+					c.set(Calendar.YEAR, objMember.getBeginDay().getYear() + 1900);
+					c.add(Calendar.DAY_OF_MONTH, objMember.getDayOfTraining()+dayoff);
+					Date endDate = c.getTime();
+					java.sql.Date endDateSql = TimeConvert.getSqlDate(endDate);
+					objMember.setDayOff(dayoff);
+					objMember.setEndDay(endDateSql);
+					if(objMember.getIsExpired() == true){
+						alMemberTrue.add(objMember);
+					}
+				}
+				request.setAttribute("alMemberTrue", alMemberTrue);
+			}
 			if(value == 1){
 				for(Member objMember:alMember){
 					int dayoff = mHistory.getDayOff(objMember.getCurentHistoryId());
@@ -103,9 +124,24 @@ public class ControllerAdminSearchRegister extends HttpServlet {
 					Date expectedDate = c.getTime();
 					java.sql.Date expectedDateSql = TimeConvert.getSqlDate(expectedDate);
 					objMember.setExpectedDate(expectedDateSql);
-					if(TimeConvert.removeTime(objMember.getBeginDay()).equals(TimeConvert.removeTime(expectedDateSql))){
+					/*if(TimeConvert.removeTime(objMember.getBeginDay()).equals(TimeConvert.removeTime(expectedDateSql))){
 						alExpected.add(objMember);
-					}
+					}*/
+					c.set(Calendar.DAY_OF_MONTH,objMember.getExpectedDate().getDate());
+					c.set(Calendar.MONTH, objMember.getExpectedDate().getMonth());
+					c.set(Calendar.YEAR, objMember.getExpectedDate().getYear() + 1900);
+					c.add(Calendar.DAY_OF_MONTH, -1);
+					Date expectedDate1 = c.getTime();
+					java.sql.Date expectedDateSql1 = TimeConvert.getSqlDate(expectedDate1);
+					c.set(Calendar.DAY_OF_MONTH,objMember.getExpectedDate().getDate());
+					c.set(Calendar.MONTH, objMember.getExpectedDate().getMonth());
+					c.set(Calendar.YEAR, objMember.getExpectedDate().getYear() + 1900);
+					c.add(Calendar.DAY_OF_MONTH, -2);
+					Date expectedDate2 = c.getTime();
+					java.sql.Date expectedDateSql2 = TimeConvert.getSqlDate(expectedDate2);
+					if(TimeConvert.removeTime(objMember.getBeginDay()).equals(TimeConvert.removeTime(expectedDateSql)) || TimeConvert.removeTime(objMember.getBeginDay()).equals(TimeConvert.removeTime(expectedDateSql1)) || TimeConvert.removeTime(objMember.getBeginDay()).equals(TimeConvert.removeTime(expectedDateSql2))){
+						alExpected.add(objMember);
+					}	
 				}
 				for(Member member: alExpected){
 					int dayoff = mHistory.getDayOff(member.getCurentHistoryId());
@@ -148,17 +184,31 @@ public class ControllerAdminSearchRegister extends HttpServlet {
 				for(DayOff objDayOff: alDayOff){
 					if((TimeConvert.removeTime(curentDateSql).after(TimeConvert.removeTime(objDayOff.getStart_day())) || TimeConvert.removeTime(curentDateSql).equals(TimeConvert.removeTime(objDayOff.getStart_day()))) && (TimeConvert.removeTime(curentDateSql).before(TimeConvert.removeTime(objDayOff.getEnd_day())) || TimeConvert.removeTime(curentDateSql).equals(TimeConvert.removeTime(objDayOff.getEnd_day())))){
 						Member objMember = mMember.getListForDayOff(objDayOff.getHistory_id());
-						objMember.setStartDayOff(objDayOff.getStart_day());
-						objMember.setEndDayOff(objDayOff.getEnd_day());
+						int dayoff = mHistory.getDayOff(objMember.getCurentHistoryId());
+						Calendar c = Calendar.getInstance();
+						c.set(Calendar.DAY_OF_MONTH,objMember.getBeginDay().getDate());
+						c.set(Calendar.MONTH, objMember.getBeginDay().getMonth());
+						c.set(Calendar.YEAR, objMember.getBeginDay().getYear() + 1900);
+						c.add(Calendar.DAY_OF_MONTH, objMember.getDayOfTraining()+dayoff);
+						Date endDate = c.getTime();
+						java.sql.Date endDateSql = TimeConvert.getSqlDate(endDate);
+						objMember.setDayOff(dayoff);
+						objMember.setEndDay(endDateSql);
 						alDayOffMember.add(objMember);
 					}
 				}
-				for(Member objMember:alDayOffMember){
-					System.out.println(objMember.toString());
-					System.out.println(objMember.getStartDayOff());
-					System.out.println(objMember.getEndDayOff());
+				request.setAttribute("alDayoff", alDayOffMember);
+			}
+			ArrayList<Training> alTraining = mTraining.getListForMember();
+			ArrayList<Training> alTrainings = new ArrayList<>();
+			for (Training objTraining : alTraining) {
+				if(objTraining.getSaleId() != 0){
+					alTrainings.add(mTraining.getItemForMemberSale(objTraining.getId()));
+				}else{
+					alTrainings.add(mTraining.getItemForMemberNoSale(objTraining.getId()));
 				}
 			}
+			request.setAttribute("alTraining", alTrainings);
 			RequestDispatcher rd = request.getRequestDispatcher("/admin/sortRegister.jsp");
 			rd.forward(request, response);
 		}

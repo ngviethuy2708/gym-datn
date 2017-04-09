@@ -17,7 +17,6 @@ import bean.Member;
 import library.TimeConvert;
 import model.ModelHistory;
 import model.ModelMember;
-import model.ModelRegister;
 import model.ModelTraining;
 import model.ModelUser;
 
@@ -101,7 +100,7 @@ public class ControllerAdminAjaxMember extends HttpServlet {
 					objMember = new Member(idMember, userId, curentHistoryId);
 					int resultUpdateMember = mMember.editItem(objMember);
 					if(resultUpdateMember > 0){
-						System.out.println("thanh cong");
+						response.sendRedirect(request.getContextPath()+"/admin/indexUsers?active=success");
 					}
 				}
 			}

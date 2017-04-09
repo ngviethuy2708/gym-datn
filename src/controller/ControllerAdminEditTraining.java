@@ -18,16 +18,10 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 
-import bean.Introduce;
-
-
-import bean.News;
 import bean.Price;
 import bean.Sale;
 import bean.Training;
 import library.TimeConvert;
-import model.ModelIntroduce;
-import model.ModelNews;
 import model.ModelPrice;
 import model.ModelSale;
 import model.ModelTraining;
@@ -92,6 +86,7 @@ public class ControllerAdminEditTraining extends HttpServlet {
 			String dateTo = "";
 			String picture = "";
 			String pictureNew = "";
+			String preView = "";
 			String pictureOld = "";
 			for (FileItem fileItem : fileItems) {
 				if(fileItem.isFormField()){
@@ -112,6 +107,9 @@ public class ControllerAdminEditTraining extends HttpServlet {
 						break;
 					case "pictureOld":
 						pictureOld = fileValue;
+						break;
+					case "preview":
+						preView = fileValue;
 						break;
 					default:
 						break;
@@ -134,6 +132,8 @@ public class ControllerAdminEditTraining extends HttpServlet {
 						File fileOld = new File(filePathOld);
 						fileOld.delete();
 						System.out.println(request.getServletContext().getRealPath(""));
+					}else{
+						pictureNew = pictureOld;
 					}
 				}
 			} // hết for
@@ -163,7 +163,7 @@ public class ControllerAdminEditTraining extends HttpServlet {
 				String dateCreate = TimeConvert.getDateNow();
 				java.util.Date dateCreateUtil = TimeConvert.getDateTime(dateCreate);
 				Date dateCreatSql = TimeConvert.getSqlDate(dateCreateUtil);
-				objTraining = new Training(id, pictureNew, idPrice, idSale, dateCreatSql);
+				objTraining = new Training(id,preView,pictureNew, idPrice, idSale, dateCreatSql);
 			}else{
 				int idPrice = 0;
 				int idSale = 0;
@@ -175,7 +175,7 @@ public class ControllerAdminEditTraining extends HttpServlet {
 				String dateCreate = TimeConvert.getDateNow();
 				java.util.Date dateCreateUtil = TimeConvert.getDateTime(dateCreate);
 				Date dateCreatSql = TimeConvert.getSqlDate(dateCreateUtil);
-				objTraining = new Training(id, pictureNew, idPrice, idSale, dateCreatSql);
+				objTraining = new Training(id,preView, pictureNew, idPrice, idSale, dateCreatSql);
 			}
 			if(mTraining.editItem(objTraining) > 0){
 				response.sendRedirect(request.getContextPath() + "/admin/indexTraining");

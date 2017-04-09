@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -11,9 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import library.TimeConvert;
+import model.ModelTraining;
 import model.ModelUser;
 import bean.SearchForDate;
 import bean.Search;
+import bean.Training;
 
 /**
  * Servlet implementation class ControllerAdminSearchUsers
@@ -42,6 +45,7 @@ public class ControllerAdminSearchUsers extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ModelUser mUser = new ModelUser();
+		ModelTraining mTraining = new ModelTraining();
 		TimeConvert cv = new TimeConvert();
 		String type = "";
 		String something = "";
@@ -59,6 +63,16 @@ public class ControllerAdminSearchUsers extends HttpServlet {
 			SearchForDate item2 = new SearchForDate(type, dateSQl);
 			request.setAttribute("alUser", mUser.getListForSearchDate(item2));	
 		}
+		ArrayList<Training> alTraining = mTraining.getListForMember();
+		ArrayList<Training> alTrainings = new ArrayList<>();
+		for (Training objTraining : alTraining) {
+			if(objTraining.getSaleId() != 0){
+				alTrainings.add(mTraining.getItemForMemberSale(objTraining.getId()));
+			}else{
+				alTrainings.add(mTraining.getItemForMemberNoSale(objTraining.getId()));
+			}
+		}
+		request.setAttribute("alTraining", alTrainings);
 		RequestDispatcher rd = request.getRequestDispatcher("/admin/searchUsers.jsp");
 		rd.forward(request, response);
 		
