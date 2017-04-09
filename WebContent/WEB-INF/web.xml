@@ -114,6 +114,14 @@
     <url-pattern>/admin/searchRegister</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>ControllerAdminSearchRegister2</servlet-name>
+    <servlet-class>controller.ControllerAdminSearchRegister2</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerAdminSearchRegister2</servlet-name>
+    <url-pattern>/admin/searchRegister2</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>ControllerAdminEditRegister</servlet-name>
     <servlet-class>controller.ControllerAdminEditRegister</servlet-class>
   </servlet>
@@ -209,22 +217,7 @@
     <servlet-name>ControllerAdminSearchNews</servlet-name>
     <url-pattern>/admin/searchNews</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>ControllerAdminIndexExcercises</servlet-name>
-    <servlet-class>controller.ControllerAdminIndexExcercises</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ControllerAdminIndexExcercises</servlet-name>
-    <url-pattern>/admin/indexExcercises</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>ControllerAdminAddExcercises</servlet-name>
-    <servlet-class>controller.ControllerAdminAddExcercises</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ControllerAdminAddExcercises</servlet-name>
-    <url-pattern>/admin/addExcercises</url-pattern>
-  </servlet-mapping>
+ 
   <servlet>
     <servlet-name>ControllerAdminEditExcercises</servlet-name>
     <servlet-class>controller.ControllerAdminEditExcercises</servlet-class>
@@ -625,12 +618,76 @@
     <servlet-name>ControllerAdminViewHistory</servlet-name>
     <url-pattern>/admin/viewHistory</url-pattern>
   </servlet-mapping>
-    <servlet>
+  <servlet>
     <servlet-name>ControllerAdminReloadRegister</servlet-name>
     <servlet-class>controller.ControllerAdminReloadRegister</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ControllerAdminReloadRegister</servlet-name>
     <url-pattern>/admin/reloadRegister</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ControllerAdminSortYear</servlet-name>
+    <servlet-class>controller.ControllerAdminSortYear</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerAdminSortYear</servlet-name>
+    <url-pattern>/admin/sortYear</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ControllerAdminIndexFitnessCategory</servlet-name>
+    <servlet-class>controller.ControllerAdminIndexFitnessCategory</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerAdminIndexFitnessCategory</servlet-name>
+    <url-pattern>/admin/fitnessCategory</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ControllerAdminAddFitnessCategory</servlet-name>
+    <servlet-class>controller.ControllerAdminAddFitnessCategory</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerAdminAddFitnessCategory</servlet-name>
+    <url-pattern>/admin/addFitnessCategory</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ControllerAdminSortCategory</servlet-name>
+    <servlet-class>controller.ControllerAdminSortCategory</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerAdminSortCategory</servlet-name>
+    <url-pattern>/admin/sortCategory</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ControllerAdminAddHistoryMemberForSort</servlet-name>
+    <servlet-class>controller.ControllerAdminAddHistoryMemberForSort</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerAdminAddHistoryMemberForSort</servlet-name>
+    <url-pattern>/admin/addHistoryMemberForSort</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ControllerAdminDeleteFitnessCategory</servlet-name>
+    <servlet-class>controller.ControllerAdminDeleteFitnessCategory</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerAdminDeleteFitnessCategory</servlet-name>
+    <url-pattern>/admin/deleteCategory</url-pattern>
+  </servlet-mapping>
+    <servlet>
+    <servlet-name>ControllerAdminIndexExcercises</servlet-name>
+    <servlet-class>controller.ControllerAdminIndexExcercises</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerAdminIndexExcercises</servlet-name>
+    <url-pattern>/admin/indexExcercises</url-pattern>
+  </servlet-mapping>
+     <servlet>
+    <servlet-name>ControllerAdminAddExcercises</servlet-name>
+    <servlet-class>controller.ControllerAdminAddExcercises</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerAdminAddExcercises</servlet-name>
+    <url-pattern>/admin/addExcercises</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -9,11 +9,11 @@
                 
                 <div class="col-lg-6 col-md-6 form-group">                  
                     <label for="inputTrainingname">Tên(*)</label>
-                    <input type="text" class="form-control" name="trainName" placeholder="Nhập họ tên gói tập">                  
+                    <input type="text" class="form-control" name="trainName" placeholder="Nhập tên gói tập">                  
                 </div>
                 <div class="col-lg-6 col-md-6 form-group">                  
                     <label for="inputPrice">Giá(*)</label>
-                    <input type="text" class="form-control" name="price"  placeholder="Nhập giá tại đây">                  
+                    <input type="text" class="form-control" name="price"  placeholder="Nhập giá">                  
                 </div> 
               </div>
             <div class="row form-group">

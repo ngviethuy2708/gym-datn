@@ -19,12 +19,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 
 import library.TimeConvert;
-import model.ModelNews;
 import model.ModelPrice;
 import model.ModelSale;
 import model.ModelTraining;
 import model.ModelUser;
-import bean.News;
 import bean.Price;
 import bean.Sale;
 import bean.Training;

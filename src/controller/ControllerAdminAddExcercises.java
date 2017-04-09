@@ -2,6 +2,7 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -17,20 +19,22 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 
-import bean.Excercises;
-import bean.Introduce;
-
-
-import bean.News;
-import model.ModelExcercises;
-import model.ModelIntroduce;
-import model.ModelNews;
-
+import library.TimeConvert;
+import model.ModelFitnessExcercises;
+import model.ModelPrice;
+import model.ModelSale;
+import model.ModelTraining;
+import model.ModelUser;
+import bean.FitnessExcercises;
+import bean.Price;
+import bean.Sale;
+import bean.Training;
+import bean.User;
 
 /**
- * Servlet implementation class ControllerAdminIndex
+ * Servlet implementation class ControllerAdminAddUsers
  */
-//@WebServlet("/ControllerAdminIndex")
+
 public class ControllerAdminAddExcercises extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -46,7 +50,6 @@ public class ControllerAdminAddExcercises extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doPost(request, response);
 	}
 
@@ -54,11 +57,11 @@ public class ControllerAdminAddExcercises extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		if("load".equals(request.getParameter("type"))){
 			RequestDispatcher rd = request.getRequestDispatcher("/admin/addExcercises.jsp");
 			rd.forward(request, response);
 		}else{
+			System.out.println("abc");
 			DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
 			ServletFileUpload sfu = new ServletFileUpload(fileItemFactory);
 			List<FileItem> fileItems = null;
@@ -69,9 +72,11 @@ public class ControllerAdminAddExcercises extends HttpServlet {
 				e.printStackTrace();
 			}
 			String name = "";
-			int idExcercises = 0;
-			String preview ="";
+			String preview = "";
 			String detail = "";
+			String video = "";
+			String result = "";
+			int cid = 0;
 			String picture = "";
 			String pictureNew = "";
 			for (FileItem fileItem : fileItems) {
@@ -79,14 +84,23 @@ public class ControllerAdminAddExcercises extends HttpServlet {
 					String fileName = fileItem.getFieldName();
 					String fileValue = new String(fileItem.getString().getBytes("ISO-8859-1"),"UTF-8");
 					switch (fileName) {
-					case "nameExcercises":
+					case "exName":
 						name = fileValue;
 						break;
-					case "preview":
+					case "exVideo":
+						video = fileValue;
+						break;
+					case "exPreview":
 						preview = fileValue;
 						break;
-					case "detail":
+					case "exDetail":
 						detail = fileValue;
+						break;
+					case "exResult":
+						result = fileValue;
+						break;
+					case "categoryId":
+						cid = Integer.parseInt(fileValue);
 						break;
 					default:
 						break;
@@ -105,21 +119,18 @@ public class ControllerAdminAddExcercises extends HttpServlet {
 							e.printStackTrace();
 						}
 						System.out.println(request.getServletContext().getRealPath(""));
-					}else{ // khong upload
 					}
+			
 				}
-			} // hết for
-			// insert news into database
-			ModelExcercises mEx = new ModelExcercises();
-			Excercises objEx = new Excercises(0, name, preview, detail, pictureNew);
-			if(mEx.addItem(objEx) > 0){
-				response.sendRedirect(request.getContextPath() + "/admin/indexExcercises");
-				return ;
-			}else{
-				response.sendRedirect(request.getContextPath() + "/admin/addExcercises");
+			}
+			ModelFitnessExcercises mExcercises = new ModelFitnessExcercises();
+			FitnessExcercises objEx = new FitnessExcercises(0, name, pictureNew, preview, detail, video, result, cid);
+			System.out.println(objEx.toString());
+			int value = mExcercises.addExcercises(objEx);
+			if(value > 0){
+				response.sendRedirect(request.getContextPath() + "/admin/indexExcercises?cid="+cid+"&add=success");
 				return ;
 			}
 		}
 	}
-
 }

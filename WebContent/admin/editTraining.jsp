@@ -60,7 +60,7 @@
               <div class="row form-group">
                 <div class="col-lg-12 form-group">                   
                     <label class="control-label" for="inputPreview">Preview(*)</label>
-                    <textarea class="form-control" name="preview" rows="3" disabled><%=objTraining.getPreview() %></textarea>
+                    <textarea class="form-control" name="preview" rows="3" ><%=objTraining.getPreview() %></textarea>
                 </div>
               </div>
                <div class="row form-group">

@@ -2,6 +2,7 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -17,20 +19,22 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 
-import bean.Excercises;
-import bean.Introduce;
-
-
-import bean.News;
-import model.ModelExcercises;
-import model.ModelIntroduce;
-import model.ModelNews;
-
+import library.TimeConvert;
+import model.ModelFitnessExcercises;
+import model.ModelPrice;
+import model.ModelSale;
+import model.ModelTraining;
+import model.ModelUser;
+import bean.FitnessExcercises;
+import bean.Price;
+import bean.Sale;
+import bean.Training;
+import bean.User;
 
 /**
- * Servlet implementation class ControllerAdminIndex
+ * Servlet implementation class ControllerAdminAddUsers
  */
-//@WebServlet("/ControllerAdminIndex")
+
 public class ControllerAdminEditExcercises extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -46,7 +50,6 @@ public class ControllerAdminEditExcercises extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doPost(request, response);
 	}
 
@@ -54,17 +57,18 @@ public class ControllerAdminEditExcercises extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ModelExcercises mEx = new ModelExcercises();
-		int eid = 0; 
-		if(request.getParameter("eid") != null){
-			eid = Integer.parseInt(request.getParameter("eid"));
-		}
-		// TODO Auto-generated method stub
+		ModelFitnessExcercises mEx = new ModelFitnessExcercises();
 		if("load".equals(request.getParameter("type"))){
+			int eid = 0;
+			if(request.getParameter("eid") != null){
+				eid = Integer.parseInt(request.getParameter("eid"));
+			}
+			FitnessExcercises objEx = mEx.getItem(eid);
 			request.setAttribute("objEx", mEx.getItem(eid));
 			RequestDispatcher rd = request.getRequestDispatcher("/admin/editExcercises.jsp");
 			rd.forward(request, response);
 		}else{
+			System.out.println("abc");
 			DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
 			ServletFileUpload sfu = new ServletFileUpload(fileItemFactory);
 			List<FileItem> fileItems = null;
@@ -75,25 +79,40 @@ public class ControllerAdminEditExcercises extends HttpServlet {
 				e.printStackTrace();
 			}
 			String name = "";
-			int idExcercises = 0;
-			String preview ="";
+			String preview = "";
 			String detail = "";
+			String video = "";
+			String result = "";
+			int cid = 0;
+			int eid = 0;
 			String picture = "";
-			String pictureOld = "";
 			String pictureNew = "";
+			String pictureOld = "";
 			for (FileItem fileItem : fileItems) {
 				if(fileItem.isFormField()){
 					String fileName = fileItem.getFieldName();
 					String fileValue = new String(fileItem.getString().getBytes("ISO-8859-1"),"UTF-8");
 					switch (fileName) {
-					case "nameExcercises":
+					case "exName":
 						name = fileValue;
 						break;
-					case "preview":
+					case "exVideo":
+						video = fileValue;
+						break;
+					case "exPreview":
 						preview = fileValue;
 						break;
-					case "detail":
+					case "exDetail":
 						detail = fileValue;
+						break;
+					case "exResult":
+						result = fileValue;
+						break;
+					case "categoryId":
+						cid = Integer.parseInt(fileValue);
+						break;
+					case "excercisesId":
+						eid = Integer.parseInt(fileValue);
 						break;
 					case "pictureOld":
 						pictureOld = fileValue;
@@ -115,26 +134,18 @@ public class ControllerAdminEditExcercises extends HttpServlet {
 							e.printStackTrace();
 						}
 						System.out.println(request.getServletContext().getRealPath(""));
-						String filePathOld = request.getServletContext().getRealPath("") + File.separator + "files" + File.separator
-								+ pictureOld;
-						System.out.println(filePathOld);
-						File fileOld = new File(filePathOld);
-						fileOld.delete();
-					}else{ // khong upload
+					}else{
+						pictureNew = pictureOld;
 					}
+			
 				}
-			} // hết for
-			// insert news into database
-			System.out.println(pictureOld);
-			Excercises objEx = new Excercises(eid, name, preview, detail, pictureNew);
-			if(mEx.editItem(objEx) > 0){
-				response.sendRedirect(request.getContextPath() + "/admin/indexExcercises");
-				return ;
-			}else{
-				response.sendRedirect(request.getContextPath() + "/admin/editNews");
+			}
+			FitnessExcercises objEx = new FitnessExcercises(eid, name, pictureNew, preview, detail, video, result, cid);
+			int value = mEx.editExcercises(objEx);
+			if(value > 0){
+				response.sendRedirect(request.getContextPath() + "/admin/indexExcercises?cid="+cid+"&edit=success");
 				return ;
 			}
 		}
 	}
-
 }

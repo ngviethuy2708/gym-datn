@@ -59,7 +59,6 @@ $( document ).ready(function() {
 			},
 			birthDay: {
 				required: true,
-				date: true,
 			},
 			address: {
 				required: true,
@@ -81,7 +80,6 @@ $( document ).ready(function() {
 			},
 			birthDay: {
 				required: "<span style='color:red;font-weight:bold;font-size:13px;'>Vui lòng nhập ngày tháng năm sinh!</span>",
-				myDateFormat: "<span style='color:red;font-weight:bold;font-size:13px;'>Sai định dạng ngày tháng năm(dd/MM/YYYY)</span>"
 			},
 			address: {
 				required: "<span style='color:red;font-weight:bold;font-size:13px;'>Vui lòng nhập địa chỉ!</span>",

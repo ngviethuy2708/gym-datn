@@ -33,10 +33,10 @@
 				</div>
 				<div class="col-md-6">
 					<form class="form-inline" role="form"
-						action="<%=request.getContextPath()%>/admin/searchRegister"
+						action="<%=request.getContextPath()%>/admin/searchRegister2"
 						method="post">
 						<div class="form-group">
-							<input style=" width:350px;"name="something" type="text" class="form-control" id="exampleInputPassword2" placeholder="keyword">
+							<input style=" width:350px;"name="keyword" type="text" class="form-control" id="exampleInputPassword2" placeholder="keyword">
 						</div>
 						<input class="button-add btn btn-primary create-button"
 							name="submit" type="submit" value="Tìm kiếm" />
@@ -217,6 +217,17 @@
 				</div>
 			</div>
 		</div>
+<%
+	String msg = "";
+	if(request.getParameter("active") != null){
+		msg = request.getParameter("active");
+		if(msg.equals("success")){
+%>
+<script>
+	swal("Chúc mừng!", "Bạn đã gia hạn hội viên thành công!", "success")
+</script>
+		<%} %>
+	<%} %>
 		<script type="text/javascript">
 	select_training();
 	$('#training').change(function(){
@@ -301,34 +312,6 @@
 		}
 	};
 	</script>
-		<script>
-<%-- $('#addMember').on('click', function() {
-	console.log('abc');
-    var member_id =  $("#addHistoryMem_").attr("data-id");
-    console.log(member_id);
-	 var training = $('#training option:selected');
-	var training_id = 0;
-	var price_id = 0;
-	var sale_id = 0;
-	if(training){
-		training_id = training.attr('id');
-		price_id = training.attr('idPrice');
-		sale_id = training.attr('idSale');
-	}
-	$.ajax({
-		type: 'GET',
-		url: '<%=request.getContextPath() %>/admin/addHistoryMember',
-		data: {'memberId': member_id, 'trainingId': training_id, 'priceId': price_id, 'saleId': sale_id },
-		success: function(response) {
-			console.log('abc');
-		}
-	});   
-}); --%>
-/* function reloadPage()
-{
-	window.location.reload();
-} */
-</script>
 		<%@include file="/templates/admin/inc/rightbar.jsp"%>
 	</div>
 

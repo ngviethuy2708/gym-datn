@@ -13,36 +13,11 @@
 	<div class="row">
 		<!-- main -->
 		<div class="col-md-10 main">
-			<div class="search-form">
-				<!--search form  -->
-				<div class="col-md-6">
-					<form class="form-inline" role="form"
-						action="<%=request.getContextPath()%>/admin/searchRegister"
-						method="post">
-						<div class="form-group">
-							<select name="sortMember" class="form-control" style="margin-left: -15px; width: 350px;">
-  								<option value="0">--------------------HỘI VIÊN--------------------------</option>
- 								<option value="1">-----------------HỘI VIÊN SẮP HẾT HẠN--------------</option>
-  								<option value="2">-----------------HỘI VIÊN ĐÃ HẾT HẠN---------------</option>
-  								<option value="3">-----------------HỘI VIÊN VẮNG HÔM NAY--------------</option>
-							</select>
-						</div>
-						<input class="button-add btn btn-primary create-button"
-							name="submit" type="submit" value="Sắp xếp" />
-					</form>
-				</div>
-				<div class="col-md-6">
-					<form class="form-inline" role="form"
-						action="<%=request.getContextPath()%>/admin/searchRegister"
-						method="post">
-						<div class="form-group">
-							<input style=" width:350px;"name="something" type="text" class="form-control" id="exampleInputPassword2" placeholder="keyword">
-						</div>
-						<input class="button-add btn btn-primary create-button"
-							name="submit" type="submit" value="Tìm kiếm" />
-					</form>
-				</div>
-			</div>
+			<div class="col-md-2">
+					<p>
+						<a href="<%=request.getContextPath()%>/admin/indexRegister" class="btn btn-success create-button" style="margin-left: -16px; margin-top: 41px;">Quay lại</a>
+		        	</p>
+		    	</div>	
 			<!-- end search form -->
 			<span id="addHistoryErr" style="color: red;"></span>
 			<div class="table-main">
@@ -61,6 +36,8 @@
 								style="font-size: 13px;">NGÀY BẮT ĐẦU</span></th>
 							<th style="width: 123px; text-align: center;"><span
 								style="font-size: 13px;">NGÀY KẾT THÚC</span></th>
+							<th style="width: 91px; text-align: center;"><span
+								style="font-size: 13px;">THÔNG TIN</span></th>
 							<!-- <th style="width: 91px; text-align: center;"><span
 								style="font-size: 13px;">THÔNG TIN</span></th> -->
 						</tr>
@@ -84,6 +61,12 @@
 								alMember = (ArrayList<Member>)request.getAttribute("alExpired");
 								color = "red";
 							}
+							if((ArrayList<Member>)request.getAttribute("alDayoff") != null){
+								alMember = (ArrayList<Member>)request.getAttribute("alDayoff");
+							}
+							if((ArrayList<Member>)request.getAttribute("alMemberTrue") != null){
+								alMember = (ArrayList<Member>)request.getAttribute("alMemberTrue");
+							}
 							for(Member objMember:alMember){
 						%>
 						<tr style="color:<%=color%>;">
@@ -95,6 +78,10 @@
 							<td id="dayOff_<%=objMember.getId()%>"><%=objMember.getDayOff()%> ngày</td>
 							<td id="beginDate_<%=objMember.getId()%>"><%=TimeConvert.getStringDatetime(objMember.getBeginDay())%></td>
 							<td id= "endDate_<%=objMember.getId()%>"><%=TimeConvert.getStringDatetime(objMember.getEndDay())%></td>
+							<td style="text-align: center;"><a href="#"
+								onclick="addHistory(<%=objMember.getIsExpired()%>,<%=objMember.getId()%>)"><i
+									class="fa fa-plus"></i></a> / <a href="<%=request.getContextPath()%>/admin/viewHistory?mid=<%=objMember.getId()%>"><i class="fa fa-eye"></i></a>
+							</td>
 						<%-- 	<td style="text-align: center;"><a href="#"
 								onclick="addHistory(<%=objMember.getIsExpired()%>,<%=objMember.getId()%>)"><i
 									class="fa fa-plus"></i></a> / <a href="<%=request.getContextPath()%>/admin/viewHistory?mid=<%=objMember.getId()%>"><i class="fa fa-eye"></i></a>
@@ -122,7 +109,7 @@
 		</div>
 		<!-- end main -->
 		<!-- Modal -->
-		<%-- <div class="modal fade" id="addHistory" tabindex="-1" role="dialog"
+		<div class="modal fade" id="addHistory" tabindex="-1" role="dialog"
 			aria-labelledby="loginLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -137,8 +124,8 @@
 					</div>
 					<div class="modal-body">
 						<input type="hidden" name="userID" value="">
-						<form class="form-horizontal form_register" role="form"
-							method="post">
+						<form id="form_active" class="form-horizontal form_register" role="form"
+							action= "<%=request.getContextPath() %>/admin/addHistoryMemberForSort" method="post">
 							<div class="form-group">
 								<label for="inputEmail3" class="col-sm-3 control-label">Chọn
 									lịch tập:</label>
@@ -202,12 +189,16 @@
 									class="button-add btn btn-success create-button" name="submit"
 									type="submit" value="Xác nhận" /></a>
 							</div>
+							<input type="hidden" id="member_id" name="memberId" value="">
+     						<input type="hidden" id="training_id" name="trainingId" value="">
+     						<input type="hidden" id="price_id" name="priceId" value="">
+     						<input type="hidden" id="sale_iD" name="saleId" value="">
 						</form>
 					</div>
 				</div>
 			</div>
-		</div> --%>
-		<%-- <script type="text/javascript">
+		</div>
+<script type="text/javascript">
 	select_training();
 	$('#training').change(function(){
 		select_training();
@@ -216,11 +207,13 @@
 		var training = $('#training option:selected');
 		if (training) {
 			var idTraining = training.attr('id');
+			$('#training_id').val(idTraining);
 			var price = training.attr('price');
 			var discount = training.attr('discount');
 			var priceId = training.attr('idPrice');
+			$('#price_id').val(priceId);
 			var saleID = training.attr('idSale');
-			
+			$('#sale_iD').val(saleID);
 			var dateFrom = new Date(training.attr('dateFrom')).getTime();
 			var dateTo = new Date(training.attr('dateTo')).getTime();
 			
@@ -229,7 +222,7 @@
 			var current_date = new Date().getTime();
 			/* current_date.setHours(0, 0, 0, 0); */
 			if(saleID != 0){
-				if((dateFrom <= current_date ) && (current_date <= dateTo  )){
+				if((dateFrom < current_date || dateFrom == current_date ) && (current_date < dateTo || current_date == dateTo )){
 					var curent_price = price - ((price*discount)/100);
 					$('#price').html(price+" VNĐ");
 					$('#discount').html(discount+" %");
@@ -254,74 +247,13 @@
 			swal({   title: "Hội viên chưa hết hạn",   text: "",   timer: 2000,   showConfirmButton: false });
 		}else if(is_expired == false){
 			$('#addHistory').modal('show');
-			$('#addMember').on('click', function() {
-				var training = $('#training option:selected');
-				var training_id = 0;
-				var price_id = 0;
-				var sale_id = 0;
-				var training_name = '';
-				var day_of_training = 0;
-				if(training){
-					training_id = training.attr('id');
-					price_id = training.attr('idPrice');
-					sale_id = training.attr('idSale');
-					training_name = training.attr('training_name');
-					day_of_training = training.attr('day_of_training');
-					var begin_date = new Date();
-					var begin_date_format = moment(begin_date).format('DD/MM/YYYY');
-					var end_date = new Date(begin_date.setDate(begin_date.getDate() + parseInt(day_of_training)));
-					var end_date_format = moment(end_date).format('DD/MM/YYYY');
-					var day_off = 0;
-				$.ajax({
-					type: 'GET',
-					async: false,
-					url: '<%=request.getContextPath()%>/admin/addHistoryMember',
-					data: {'memberId': id_member, 'trainingId': training_id, 'priceId': price_id, 'saleId': sale_id },
-					success: function(response) {
-					
-						
-					}
-				});
-				$('#addHistory').modal('hide');
-				var link = window.location.href;
-				link = link.substring(0, link.length - 1);
-				window.location = link;
-				}
-			});
+			$('#member_id').val(id_member);
+			$('#form_active').submit();
 		}
-	}; --%>
+	};
 	</script>
-		<script>
-<%-- $('#addMember').on('click', function() {
-	console.log('abc');
-    var member_id =  $("#addHistoryMem_").attr("data-id");
-    console.log(member_id);
-	 var training = $('#training option:selected');
-	var training_id = 0;
-	var price_id = 0;
-	var sale_id = 0;
-	if(training){
-		training_id = training.attr('id');
-		price_id = training.attr('idPrice');
-		sale_id = training.attr('idSale');
-	}
-	$.ajax({
-		type: 'GET',
-		url: '<%=request.getContextPath() %>/admin/addHistoryMember',
-		data: {'memberId': member_id, 'trainingId': training_id, 'priceId': price_id, 'saleId': sale_id },
-		success: function(response) {
-			console.log('abc');
-		}
-	});   
-}); --%>
-/* function reloadPage()
-{
-	window.location.reload();
-} */
-</script>
 		<%@include file="/templates/admin/inc/rightbar.jsp"%>
 	</div>
-
 </div>
 <!-- end body -->
 </body>

@@ -482,14 +482,15 @@ public class ModelTraining {
 		int result = 0;
 		LibraryString lib = new LibraryString();
 		conn = mConnect.getConnectSQL();
-		String sql ="UPDATE training SET picture = ?, price_id = ?, sale_id = ?, day_create = ? WHERE id = ? LIMIT 1";
+		String sql ="UPDATE training SET picture = ?,preview = ? ,price_id = ?, sale_id = ?, day_create = ? WHERE id = ? LIMIT 1";
 		try {
 			pst = conn.prepareStatement(sql);
 			pst.setString(1, objTraining.getPicture());
-			pst.setInt(2, objTraining.getPriceId());
-			pst.setInt(3, objTraining.getSaleId());
-			pst.setDate(4, objTraining.getDateCreate());
-			pst.setInt(5, objTraining.getId());
+			pst.setString(2, objTraining.getPreview());
+			pst.setInt(3, objTraining.getPriceId());
+			pst.setInt(4, objTraining.getSaleId());
+			pst.setDate(5, objTraining.getDateCreate());
+			pst.setInt(6, objTraining.getId());
 			pst.executeUpdate();
 			result = 1;
 		} catch (SQLException e) {

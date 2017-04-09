@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import library.LibraryString;
 import bean.Member;
+import bean.Statictis;
 import bean.Training;
 import bean.User;
 
@@ -195,6 +196,40 @@ public class ModelMember {
 		}
 		return alMember;
 	}
+	public ArrayList<Member> getListKeyWord(String keyword){
+		ArrayList<Member> alMember = new ArrayList<>();
+		conn = mConnect.getConnectSQL();
+		String sql = "SELECT member.id, member.curent_history_id, user.user_name, user.full_name ,training.name, training.day_of_training,  history.begin_day, history.curent_price, member.is_expired FROM member JOIN user ON member.user_id = user.id JOIN history ON member.curent_history_id = history.id JOIN training ON history.training_id = training.id WHERE user.user_name like '%"+keyword+"%' or user.full_name like '%"+keyword+"%'";
+		try {
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			while(rs.next()){
+				int id = rs.getInt("id");
+				int curentHistoryId = rs.getInt("curent_history_id");
+				Boolean isExpired = rs.getBoolean("is_expired");
+				String fullName = rs.getString("full_name");
+				String userName = rs.getString("user_name");
+				String trainingName = rs.getString("name");
+				int dayOfTraining = rs.getInt("day_of_training");
+				Date beginDay = rs.getDate("begin_day");
+				Member objMember = new Member(id, curentHistoryId, isExpired, fullName, userName, trainingName, dayOfTraining, beginDay);
+				alMember.add(objMember);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return alMember;
+	}
 	public int getSum(){
 		int sodong = 0;
 		String sql ="SELECT COUNT(id) AS sodong FROM member ";
@@ -300,6 +335,133 @@ public class ModelMember {
 			}
 		}
 		return objMember;
+	}
+	public ArrayList<Statictis> getYear(){
+		ArrayList<Statictis> alSta = new ArrayList<>();
+		conn = mConnect.getConnectSQL();
+		String sql = "SELECT year(begin_day) as year FROM `history` group by year(begin_day) DESC";
+		try {
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			while(rs.next()){
+				String year = rs.getString("year");
+				Statictis objSta = new Statictis(year);
+				alSta.add(objSta);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return alSta;
+	}
+	public String getYearMax(){
+		String yearMax = "";
+		conn = mConnect.getConnectSQL();
+		String sql = "SELECT year(begin_day) as year FROM `history` group by year(begin_day) DESC limit 1";
+		try {
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			if(rs.next()){
+				yearMax = rs.getString("year");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return yearMax;
+	}
+	public int  getTotalPrice(int month,String year){
+		int total = 0;
+		conn = mConnect.getConnectSQL();
+		String sql = "SELECT sum(curent_price) as total FROM `history` WHERE year(begin_day) = "+year+" and month(begin_day) = "+month+" group by month(begin_day)";
+		try {
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			if(rs.next()){
+				total = rs.getInt("total");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return total;
+	}
+	public int  countUser(){
+		int total = 0;
+		conn = mConnect.getConnectSQL();
+		String sql = "SELECT count(id) as total from user where is_member = false";
+		try {
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			if(rs.next()){
+				total = rs.getInt("total");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return total;
+	}
+	public int  countMember(){
+		int total = 0;
+		conn = mConnect.getConnectSQL();
+		String sql = "SELECT count(user.id) as total from user join member on user.id = member.user_id where user.is_member = true and member.is_expired = true";
+		try {
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			if(rs.next()){
+				total = rs.getInt("total");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				rs.close();
+				pst.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return total;
 	}
 /*	public int getUserId(int memberId){
 		int id = 0;
